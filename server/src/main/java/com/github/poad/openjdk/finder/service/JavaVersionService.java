@@ -16,23 +16,28 @@ public class JavaVersionService {
         this.repository = repository;
     }
 
-    public List<JavaVersion> list(Integer majorVersion, String arch, String vendor) throws ExecutionException, InterruptedException {
-        if (Objects.isNull(majorVersion) && Objects.isNull(arch) && Objects.isNull(vendor)) {
+    public List<JavaVersion> list(Integer majorVersion, String arch, String vendor, String type) throws ExecutionException, InterruptedException {
+        if (Objects.isNull(majorVersion) && Objects.isNull(arch) && Objects.isNull(vendor) && Objects.isNull(type)) {
             return repository.list().get();
         } else if(Objects.nonNull(majorVersion)) {
             if (Objects.isNull(arch) && Objects.isNull(vendor)) {
                 return repository.findByMajorVersion(majorVersion).get();
-            } else  if (Objects.isNull(arch)) {
+            } else if (Objects.isNull(arch)) {
                 return repository.findByVendor(vendor).get();
             } else if (Objects.isNull(vendor)) {
                 return repository.findByMajorVersionAndArch(majorVersion, arch).get();
             } else {
-                return repository.findByMajorVersionAndArchAndVendor(majorVersion, arch, vendor).get();
+                if (Objects.isNull(type)) {
+                    return repository.findByMajorVersionAndArchAndVendor(majorVersion, arch, vendor).get();
+                }
+                return repository.findByMajorVersionAndArchAndVendorAndType(majorVersion, arch, vendor, type).get();
             }
-        } else if(Objects.nonNull(arch) && Objects.isNull(vendor)) {
+        } else if(Objects.nonNull(arch) && Objects.isNull(vendor) && Objects.isNull(type)) {
             return repository.findByArch(arch).get();
-        } else {
+        } else if(Objects.nonNull(vendor) && Objects.isNull(type)) {
             return repository.findByVendor(vendor).get();
+        } else {
+            return repository.findByType(type).get();
         }
     }
 }
