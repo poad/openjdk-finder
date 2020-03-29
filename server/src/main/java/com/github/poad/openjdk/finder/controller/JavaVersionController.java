@@ -35,18 +35,24 @@ public class JavaVersionController {
 
         private final String url;
 
+        private final String type;
+
+        private final String timestmp;
+
         // for Jackson
         public JavaVersionItem() {
-            this(null, null, -1, null, null, null);
+            this(null, null, -1, null, null, null, null, null);
         }
 
-        JavaVersionItem(String id, String vendor, int majorVersion, String arch, String version, String url) {
+        JavaVersionItem(String id, String vendor, int majorVersion, String arch, String version, String url, String type, String timestmp) {
             this.id = id;
             this.vendor = vendor;
             this.majorVersion = majorVersion;
             this.arch = arch;
             this.version = version;
             this.url = url;
+            this.type = type;
+            this.timestmp = timestmp;
         }
     }
 
@@ -54,11 +60,12 @@ public class JavaVersionController {
     public List<JavaVersionItem> list(
             @RequestParam("majorVersion") Integer majorVersion,
             @RequestParam("arch") String arch,
-            @RequestParam("vendor") String vendor) throws ExecutionException, InterruptedException {
-        return service.list(majorVersion, arch, vendor)
+            @RequestParam("vendor") String vendor,
+            @RequestParam("type") String type) throws ExecutionException, InterruptedException {
+        return service.list(majorVersion, arch, vendor, type)
                 .stream()
                 .map(item -> new JavaVersionItem(
-                        item.getId(), item.getVendor(), item.getMajorVersion(), item.getArch(), item.getVersion(), item.getUrl()
+                        item.getId(), item.getVendor(), item.getMajorVersion(), item.getArch(), item.getVersion(), item.getUrl(), item.getType(), item.getTimestamp()
                 ))
                 .collect(Collectors.toList());
     }
