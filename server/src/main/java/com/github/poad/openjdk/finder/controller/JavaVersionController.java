@@ -7,12 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
-@Valid
 @RestController
 @RequestMapping(path = "/", produces = {MediaType.APPLICATION_JSON_VALUE})
 public class JavaVersionController {
@@ -35,30 +33,37 @@ public class JavaVersionController {
 
         private final String url;
 
+        private final String type;
+
+        private final String timestamp;
+
         // for Jackson
         public JavaVersionItem() {
-            this(null, null, -1, null, null, null);
+            this(null, null, -1, null, null, null, null, null);
         }
 
-        JavaVersionItem(String id, String vendor, int majorVersion, String arch, String version, String url) {
+        JavaVersionItem(String id, String vendor, int majorVersion, String arch, String version, String url, String type, String timestamp) {
             this.id = id;
             this.vendor = vendor;
             this.majorVersion = majorVersion;
             this.arch = arch;
             this.version = version;
             this.url = url;
+            this.type = type;
+            this.timestamp = timestamp;
         }
     }
 
-    @GetMapping
+    @GetMapping(path = "/", produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<JavaVersionItem> list(
-            @RequestParam("majorVersion") Integer majorVersion,
-            @RequestParam("arch") String arch,
-            @RequestParam("vendor") String vendor) throws ExecutionException, InterruptedException {
-        return service.list(majorVersion, arch, vendor)
+            @RequestParam(required = false) Integer majorVersion,
+            @RequestParam(required = false) String arch,
+            @RequestParam(required = false) String vendor,
+            @RequestParam(required = false) String type) throws ExecutionException, InterruptedException {
+        return service.list(majorVersion, arch, vendor, type)
                 .stream()
                 .map(item -> new JavaVersionItem(
-                        item.getId(), item.getVendor(), item.getMajorVersion(), item.getArch(), item.getVersion(), item.getUrl()
+                        item.getId(), item.getVendor(), item.getMajorVersion(), item.getArch(), item.getVersion(), item.getUrl(), item.getType(), item.getTimestamp()
                 ))
                 .collect(Collectors.toList());
     }

@@ -1,1 +1,1 @@
-# next-ts-template
+# openjdk-finder

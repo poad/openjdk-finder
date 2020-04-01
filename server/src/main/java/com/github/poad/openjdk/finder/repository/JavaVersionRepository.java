@@ -28,6 +28,10 @@ public interface JavaVersionRepository extends JpaRepository<JavaVersion, String
     CompletableFuture<List<JavaVersion>> findByArch(@Param("arch") String arch);
 
     @Async
+    @Query("select v from JavaVersion v where v.type = :type")
+    CompletableFuture<List<JavaVersion>> findByType(@Param("type") String type);
+
+    @Async
     @Query("select v from JavaVersion v where v.majorVersion = :majorVersion and v.vendor = :vendor")
     CompletableFuture<List<JavaVersion>> findByMajorVersionAndVendor(@Param("majorVersion") int majorVersion, @Param("vendor") String vendor);
 
@@ -38,4 +42,8 @@ public interface JavaVersionRepository extends JpaRepository<JavaVersion, String
     @Async
     @Query("select v from JavaVersion v where v.majorVersion = :majorVersion and v.arch = :arch and v.vendor = :vendor")
     CompletableFuture<List<JavaVersion>> findByMajorVersionAndArchAndVendor(@Param("majorVersion") int majorVersion, @Param("arch") String arch, @Param("vendor") String vendor);
+
+    @Async
+    @Query("select v from JavaVersion v where v.majorVersion = :majorVersion and v.arch = :arch and v.vendor = :vendor and v.type = :type")
+    CompletableFuture<List<JavaVersion>> findByMajorVersionAndArchAndVendorAndType(@Param("majorVersion") int majorVersion, @Param("arch") String arch, @Param("vendor") String vendor, @Param("type") String type);
 }

@@ -27,18 +27,26 @@ public class JavaVersion {
     @Column(nullable = false)
     private final String url;
 
+    @Column(nullable = false)
+    private final String type;
+
+    @Column(nullable = false)
+    private final String timestamp;
+
     // for JPA
     public JavaVersion() {
-        this(null, null, -1, null, null, null);
+        this(null, null, -1, null, null, null, null, null);
     }
 
-    public JavaVersion(String id, String vendor, int majorVersion, String arch, String version, String url) {
+    public JavaVersion(String id, String vendor, int majorVersion, String arch, String version, String url, String type, String timestamp) {
         this.id = id;
         this.vendor = vendor;
         this.majorVersion = majorVersion;
         this.arch = arch;
         this.version = version;
         this.url = url;
+        this.type = type;
+        this.timestamp = timestamp;
     }
 
     public String getId() {
@@ -63,5 +71,13 @@ public class JavaVersion {
 
     public String getUrl() {
         return url;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
     }
 }
