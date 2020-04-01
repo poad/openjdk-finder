@@ -1,0 +1,3 @@
+{
+  "app": "npx ts-node bin/adopt_open_jdk_scraper.ts"
+}
