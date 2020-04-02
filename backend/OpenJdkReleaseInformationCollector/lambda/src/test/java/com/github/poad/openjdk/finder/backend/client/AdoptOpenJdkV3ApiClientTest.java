@@ -5,9 +5,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class AdoptOpenJdkV3ApiClientTest {
-    @Test
+//    @Test
     public void test() {
         var client = new AdoptOpenJdkV3ApiClient();
-        assertNotNull(client.getVersions());
+        var res = client.getVersions();
+        assertNotNull(res);
     }
 }

@@ -1,0 +1,3 @@
+{
+  "app": "npx ts-node bin/open_jdk_release_information_collector.ts"
+}
