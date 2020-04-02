@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Stream;
 
 @Service
 public class JavaVersionService {
@@ -19,12 +18,15 @@ public class JavaVersionService {
         this.repository = repository;
     }
 
-    public List<JavaVersion> list(Integer majorVersion, String arch, String vendor, String type, String impl, String os) throws ExecutionException, InterruptedException {
+    public List<JavaVersion> list(Integer majorVersion, String arch, String vendor, String distribution, String installationType, String type, String bundle, String os, Boolean fx) throws ExecutionException, InterruptedException {
         var spec = Specification.where(JavaVersionSpecs.majorVersion(majorVersion));
         spec = Objects.nonNull(spec) ? spec.and(JavaVersionSpecs.arch(arch)) : Specification.where(JavaVersionSpecs.arch(arch));
         spec = Objects.nonNull(spec) ? spec.and(JavaVersionSpecs.vendor(vendor)) : Specification.where(JavaVersionSpecs.vendor(vendor));
+        spec = Objects.nonNull(spec) ? spec.and(JavaVersionSpecs.distribution(distribution)) : Specification.where(JavaVersionSpecs.distribution(distribution));
+        spec = Objects.nonNull(spec) ? spec.and(JavaVersionSpecs.installationType(installationType)) : Specification.where(JavaVersionSpecs.installationType(installationType));
         spec = Objects.nonNull(spec) ? spec.and(JavaVersionSpecs.type(type)) : Specification.where(JavaVersionSpecs.type(type));
-        spec = Objects.nonNull(spec) ? spec.and(JavaVersionSpecs.impl(impl)) : Specification.where(JavaVersionSpecs.impl(impl));
+        spec = Objects.nonNull(spec) ? spec.and(JavaVersionSpecs.bundle(bundle)) : Specification.where(JavaVersionSpecs.bundle(bundle));
+        spec = Objects.nonNull(spec) ? spec.and(JavaVersionSpecs.fx(fx)) : Specification.where(JavaVersionSpecs.fx(fx));
         spec = Objects.nonNull(spec) ? spec.and(JavaVersionSpecs.os(os)) : Specification.where(JavaVersionSpecs.os(os));
 
         return repository.findAll(spec);
