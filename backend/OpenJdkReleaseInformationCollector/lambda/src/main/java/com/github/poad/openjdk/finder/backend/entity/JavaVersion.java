@@ -1,48 +1,26 @@
-package com.github.poad.openjdk.finder.entity;
+package com.github.poad.openjdk.finder.backend.entity;
 
-import org.springframework.data.annotation.Immutable;
-
-import javax.persistence.*;
-
-@Entity
-@Table
-@Immutable
 public class JavaVersion {
-    @Id
-    @GeneratedValue
+
     private final String id;
 
-    @Column(nullable = false)
     private final String vendor;
 
-    @Column(nullable = false)
     private final int majorVersion;
 
-    @Column(nullable = false)
     private final String arch;
 
-    @Column(nullable = false)
     private final String version;
 
-    @Column(nullable = false)
     private final String url;
 
-    @Column(nullable = false)
     private final String type;
 
-    @Column(nullable = false)
-    private final String impl;
-
-    @Column(nullable = false)
     private final String os;
 
-    @Column(nullable = false)
-    private final String timestamp;
+    private final String impl;
 
-    // for JPA
-    public JavaVersion() {
-        this(null, null, -1, null, null, null, null, null, null, null);
-    }
+    private final String timestamp;
 
     public JavaVersion(String id, String vendor, int majorVersion, String arch, String version, String url, String type, String impl, String os, String timestamp) {
         this.id = id;
@@ -85,12 +63,12 @@ public class JavaVersion {
         return type;
     }
 
-    public String getImpl() {
-        return impl;
-    }
-
     public String getOs() {
         return os;
+    }
+
+    public String getImpl() {
+        return impl;
     }
 
     public String getTimestamp() {
