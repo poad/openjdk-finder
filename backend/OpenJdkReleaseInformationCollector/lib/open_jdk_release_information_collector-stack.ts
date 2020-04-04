@@ -78,15 +78,35 @@ export class OpenJdkReleaseInformationCollectorStack extends cdk.Stack {
       memorySize: 512
     });
 
-    const ZuluRule = new events.Rule(this, 'ZuluCollectorRule', {
+    const zuluRule = new events.Rule(this, 'ZuluCollectorRule', {
       schedule: events.Schedule.expression('cron(30 0 * * ? *)')
     });
 
-    ZuluRule.addTarget(new targets.LambdaFunction(zuluLambdaFn));
+    zuluRule.addTarget(new targets.LambdaFunction(zuluLambdaFn));
 
-    new logs.LogGroup(this, 'ZuluCollectorLogGroup', {
-      logGroupName: '/aws/lambda/' + zuluLambdaFn.functionName,
-      retention: logs.RetentionDays.ONE_DAY
+    // new logs.LogGroup(this, 'ZuluCollectorLogGroup', {
+    //   logGroupName: '/aws/lambda/' + zuluLambdaFn.functionName,
+    //   retention: logs.RetentionDays.ONE_DAY
+    // });
+
+    const sapMachineLambdaFn = new lambda.Function(this, 'SapMachineCollector', {
+      functionName: 'sapMachine-collector',
+      code: lambda.Code.fromAsset(path.join(__dirname, '../', 'lambda/build/libs/OpenJdkReleaseInformationCollector-all.jar')),
+      handler: 'com.github.poad.openjdk.finder.backend.SapMachineHandler::handleRequest',
+      timeout: cdk.Duration.seconds(14.5 * 60),
+      runtime: lambda.Runtime.JAVA_11,
+      environment: {
+        'JDBC_URL': props.jdbc,
+        'JDBC_USER': props.user,
+        'JDBC_PASSWORD': props.password,
+      },
+      memorySize: 512
     });
+  
+    const sapMachineRule = new events.Rule(this, 'SapMachineCollectorRule', {
+      schedule: events.Schedule.expression('cron(45 0 * * ? *)')
+    });
+  
+    sapMachineRule.addTarget(new targets.LambdaFunction(sapMachineLambdaFn));
   }
 }
