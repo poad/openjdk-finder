@@ -16,9 +16,19 @@ public class JavaVersionSpecs {
                 builder.equal(root.get("vendor"), vendor);
     }
 
+    public static Specification<JavaVersion> distribution(String distribution) {
+        return distribution == null ? null : (root, query, builder) ->
+                builder.equal(root.get("distribution"), distribution);
+    }
+
     public static Specification<JavaVersion> arch(String arch) {
         return arch == null ? null : (root, query, builder) ->
                 builder.equal(root.get("arch"), arch);
+    }
+
+    public static Specification<JavaVersion> installationType(String installationType) {
+        return installationType == null ? null : (root, query, builder) ->
+                builder.equal(root.get("installationType"), installationType);
     }
 
     public static Specification<JavaVersion> type(String type) {
@@ -26,9 +36,14 @@ public class JavaVersionSpecs {
                 builder.equal(root.get("type"), type);
     }
 
-    public static Specification<JavaVersion> impl(String impl) {
-        return impl == null ? null : (root, query, builder) ->
-                builder.equal(root.get("impl"), impl);
+    public static Specification<JavaVersion> bundle(String bundle) {
+        return bundle == null ? null : (root, query, builder) ->
+                builder.equal(root.get("bundle"), bundle);
+    }
+
+    public static Specification<JavaVersion> fx(Boolean fx) {
+        return fx == null ? null : (root, query, builder) ->
+                builder.equal(root.get("fx"), fx);
     }
 
     public static Specification<JavaVersion> os(String os) {

@@ -2,9 +2,9 @@ package com.github.poad.openjdk.finder.backend;
 
 import org.junit.jupiter.api.Test;
 
-public class AdoptOpenJdkHandlerTest {
+public class AmazonCorrettoHandlerTest {
     @Test
     public void test() {
-        new AdoptOpenJdkHandler().handleRequest(null, null);
+        new AmazonCorrettoHandler().handleRequest(null, null);
     }
 }

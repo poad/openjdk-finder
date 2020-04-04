@@ -3,22 +3,17 @@ package com.github.poad.openjdk.finder.backend.client;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.poad.openjdk.finder.backend.entity.JavaVersion;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.net.URI;
 import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class AdoptOpenJdkV3ApiClient {
+public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkApiClient {
     private static class Endpoint {
         private static final String AVAILABLE_RELEASES = "https://api.adoptopenjdk.net/v3/info/available_releases";
         private static final String RELEASE_VERSIONS = "https://api.adoptopenjdk.net/v3/info/release_versions?page=0&page_size=1000&release_type=ga&sort_order=DESC&vendor=%s";
@@ -297,9 +292,6 @@ public class AdoptOpenJdkV3ApiClient {
         }
     }
 
-
-    private final ObjectMapper mapper = new ObjectMapper();
-
     public Map<String, JavaVersion> getVersions() {
         var client = HttpClient.newHttpClient();
         var releases = request(client, Endpoint.AVAILABLE_RELEASES, AvailableRelease.class);
@@ -321,9 +313,68 @@ public class AdoptOpenJdkV3ApiClient {
                                     })
                                             .stream()
                                             .flatMap(binaries -> binaries.binaries.stream())
-                                            .map(binary -> {
-                                                var id = String.format("%s-%d-%s-%s-%s-%s", vendor, version.major, binary.jvmImpl, binary.imageType, binary.architecture, binary.os);
-                                                return new JavaVersion(id, vendor, version.major, binary.architecture, version.semver, binary.pkg.link, binary.imageType, binary.jvmImpl, binary.os, binary.updatedAt);
+                                            .filter(binary -> !binary.imageType.equals("testimage"))
+                                            .flatMap(binary -> {
+                                                String os = binary.os.equals("mac") ? "macos" : binary.os;
+                                                String architecture;
+                                                switch (binary.architecture) {
+                                                    case "x32":
+                                                        architecture = "x86";
+                                                        break;
+                                                    case "arm":
+                                                        architecture = "arm32";
+                                                        break;
+                                                    default:
+                                                        architecture = binary.architecture;
+                                                }
+                                                var archive = new JavaVersion(
+                                                        String.format("%s-%d-%s-%s-%s-%s",
+                                                                vendor,
+                                                                version.major,
+                                                                binary.jvmImpl,
+                                                                binary.imageType,
+                                                                architecture,
+                                                                os),
+                                                        vendor,
+                                                        "adoptopenjdk",
+                                                        version.major,
+                                                        architecture,
+                                                        version.semver,
+                                                        "archive",
+                                                        null,
+                                                        binary.pkg.link,
+                                                        binary.jvmImpl,
+                                                        os,
+                                                        binary.imageType,
+                                                        false,
+                                                        binary.updatedAt);
+                                                if (Objects.nonNull(binary.installer)) {
+                                                    var extension = binary.installer.name.substring(binary.installer.name.lastIndexOf(".") + 1);
+                                                    var installer = new JavaVersion(
+                                                            String.format("%s-%d-%s-%s-%s-%s-%s",
+                                                                    vendor,
+                                                                    version.major,
+                                                                    binary.jvmImpl,
+                                                                    binary.imageType,
+                                                                    architecture,
+                                                                    extension,
+                                                                    os),
+                                                            vendor,
+                                                            "adoptopenjdk",
+                                                            version.major,
+                                                            architecture,
+                                                            version.semver,
+                                                            "installer",
+                                                            extension,
+                                                            binary.installer.link,
+                                                            binary.jvmImpl,
+                                                            os,
+                                                            binary.imageType,
+                                                            false,
+                                                            binary.updatedAt);
+                                                    return Stream.of(archive, installer);
+                                                }
+                                                return Stream.of(archive);
                                             })
                             );
                         })
@@ -334,36 +385,4 @@ public class AdoptOpenJdkV3ApiClient {
                 .collect(Collectors.toMap(JavaVersion::getId, javaVersion -> javaVersion));
     }
 
-    private <T> T request(HttpClient client, String url, Class<T> type) {
-        try {
-            var response = request(client, url);
-            return mapper.readValue(response.body(), type);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-    }
-
-    private <T> T request(HttpClient client, String url, TypeReference<T> type) {
-        try {
-            var response = request(client, url);
-            return mapper.readValue(response.body(), type);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-    }
-
-    private HttpResponse<String> request(HttpClient client, String url) {
-        var request = HttpRequest
-                .newBuilder(URI.create(url))
-                .GET()
-                .build();
-        try {
-            return client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
 }

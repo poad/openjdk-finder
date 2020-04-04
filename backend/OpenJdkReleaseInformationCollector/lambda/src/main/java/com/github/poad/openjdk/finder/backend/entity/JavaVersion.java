@@ -6,11 +6,17 @@ public class JavaVersion {
 
     private final String vendor;
 
+    private final String distribution;
+
     private final int majorVersion;
 
     private final String arch;
 
     private final String version;
+
+    private final String installationType;
+
+    private final String extension;
 
     private final String url;
 
@@ -18,20 +24,26 @@ public class JavaVersion {
 
     private final String os;
 
-    private final String impl;
+    private final String bundle;
+
+    private final Boolean fx;
 
     private final String timestamp;
 
-    public JavaVersion(String id, String vendor, int majorVersion, String arch, String version, String url, String type, String impl, String os, String timestamp) {
+    public JavaVersion(String id, String vendor, String distribution, int majorVersion, String arch, String version, String installationType, String extension, String url, String type, String os, String bundle, Boolean fx, String timestamp) {
         this.id = id;
         this.vendor = vendor;
+        this.distribution = distribution;
         this.majorVersion = majorVersion;
         this.arch = arch;
         this.version = version;
+        this.installationType = installationType;
+        this.extension = extension;
         this.url = url;
         this.type = type;
-        this.impl = impl;
         this.os = os;
+        this.bundle = bundle;
+        this.fx = fx;
         this.timestamp = timestamp;
     }
 
@@ -41,6 +53,10 @@ public class JavaVersion {
 
     public String getVendor() {
         return vendor;
+    }
+
+    public String getDistribution() {
+        return distribution;
     }
 
     public int getMajorVersion() {
@@ -55,10 +71,6 @@ public class JavaVersion {
         return version;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
     public String getType() {
         return type;
     }
@@ -67,11 +79,27 @@ public class JavaVersion {
         return os;
     }
 
-    public String getImpl() {
-        return impl;
+    public String getBundle() {
+        return bundle;
+    }
+
+    public Boolean getFx() {
+        return fx;
     }
 
     public String getTimestamp() {
         return timestamp;
+    }
+
+    public String getInstallationType() {
+        return installationType;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public String getUrl() {
+        return url;
     }
 }
