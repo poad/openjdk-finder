@@ -231,12 +231,19 @@ public class LibericaJdkV1ApiClient extends JsonHttpClient implements OpenJdkApi
                         case "sparc":
                             architecture = "sparcv9";
                             break;
+                        case "x86":
+                            if (release.bitness.equals("32")) {
+                                architecture = release.architecture;
+                            } else {
+                                architecture = "x64";
+                            }
+                            break;
                         default:
                             architecture = release.architecture;
                             break;
                     }
                     return new JavaVersion(
-                            id(release, architecture),
+                            id(release, architecture, bundle),
                             "liberica",
                             "liberica",
                             release.featureVersion,
@@ -260,8 +267,8 @@ public class LibericaJdkV1ApiClient extends JsonHttpClient implements OpenJdkApi
 
     }
 
-    private static String id(Release release, String architecture) {
-        return release.fx ? String.format("%s-%d-%s-%s-%s-%s-%s-%s", "liberica", release.featureVersion, release.bundleType, "hotspot", architecture, "fx", release.packageType, release.os) :
-                String.format("%s-%d-%s-%s-%s-%s-%s", "liberica", release.featureVersion, release.bundleType, "hotspot", architecture, release.packageType, release.os);
+    private static String id(Release release, String architecture, String bundle) {
+        return release.fx ? String.format("%s-%d-%s-%s-%s-%s-%s-%s", "liberica", release.featureVersion, bundle, "hotspot", architecture, "fx", release.packageType, release.os) :
+                String.format("%s-%d-%s-%s-%s-%s-%s", "liberica", release.featureVersion, bundle, "hotspot", architecture, release.packageType, release.os);
     }
 }

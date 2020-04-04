@@ -6,7 +6,7 @@ import com.github.poad.openjdk.finder.backend.client.SapMachineGitHubApiClient;
 @SuppressWarnings("unused")
 public class SapMachineHandler extends LambdaHandler {
     public SapMachineHandler() {
-        super("adoptopenjdk");
+        super("sapmachine");
     }
 
     @Override

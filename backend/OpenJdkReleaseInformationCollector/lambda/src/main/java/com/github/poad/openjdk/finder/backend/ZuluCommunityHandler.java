@@ -6,7 +6,7 @@ import com.github.poad.openjdk.finder.backend.client.ZuluCommunityV1ApiClient;
 @SuppressWarnings("unused")
 public class ZuluCommunityHandler extends LambdaHandler {
     public ZuluCommunityHandler() {
-        super("adoptopenjdk");
+        super("zulu");
     }
 
     @Override
