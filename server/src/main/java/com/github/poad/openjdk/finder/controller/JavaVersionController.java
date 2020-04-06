@@ -2,6 +2,7 @@ package com.github.poad.openjdk.finder.controller;
 
 import com.github.poad.openjdk.finder.service.JavaVersionService;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/", produces = {MediaType.APPLICATION_JSON_VALUE})
 public class JavaVersionController {
