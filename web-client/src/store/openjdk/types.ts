@@ -17,12 +17,30 @@ export interface OpenJDK {
   timestamp: string | undefined,
 }
 
+export interface Filter {
+  vendor: string | undefined,
+  version: number | undefined,
+  architecture: string | undefined,
+  type: string | undefined,
+  bundle: string | undefined,
+  os: string | undefined,
+  fx: boolean | undefined,
+}
+
 export type OpenJDKState = Array<OpenJDK>
 
 export interface State {
   items: OpenJDKState,
-  page: Page
-
+  displayItems: OpenJDKState,
+  page: Page,
+  vendors: Array<string>,
+  versions: Array<number>,
+  architectures: Array<string>,
+  types: Array<string>,
+  bundles: Array<string>,
+  os: Array<string>,
+  fx: boolean | undefined,
+  condition: Filter
 }
 
 interface ListAction {

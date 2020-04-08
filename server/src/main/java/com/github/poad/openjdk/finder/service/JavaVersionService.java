@@ -6,8 +6,10 @@ import com.github.poad.openjdk.finder.repository.JavaVersionSpecs;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -30,5 +32,33 @@ public class JavaVersionService {
         spec = Objects.nonNull(spec) ? spec.and(JavaVersionSpecs.os(os)) : Specification.where(JavaVersionSpecs.os(os));
 
         return repository.findAll(spec);
+    }
+
+    public Set<String> vendors() throws ExecutionException, InterruptedException {
+        return new HashSet<>(repository.listVendors().get());
+    }
+
+    public Set<Integer> versions() throws ExecutionException, InterruptedException {
+        return new HashSet<>(repository.listVersions().get());
+    }
+
+    public Set<String> architectures() throws ExecutionException, InterruptedException {
+        return new HashSet<>(repository.listArchitectures().get());
+    }
+
+    public Set<String> distributions() throws ExecutionException, InterruptedException {
+        return new HashSet<>(repository.listDistributions().get());
+    }
+
+    public Set<String> os() throws ExecutionException, InterruptedException {
+        return new HashSet<>(repository.listOs().get());
+    }
+
+    public Set<String> types() throws ExecutionException, InterruptedException {
+        return new HashSet<>(repository.listTypes().get());
+    }
+
+    public Set<String> bundles() throws ExecutionException, InterruptedException {
+        return new HashSet<>(repository.listBundles().get());
     }
 }
