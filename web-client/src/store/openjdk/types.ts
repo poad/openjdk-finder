@@ -40,7 +40,9 @@ export interface State {
   bundles: Array<string>,
   os: Array<string>,
   fx: boolean | undefined,
-  condition: Filter
+  condition: Filter,
+  loaded: boolean,
+  error: boolean
 }
 
 interface ListAction {

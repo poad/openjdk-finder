@@ -20,6 +20,8 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Backdrop from '@material-ui/core/Backdrop';
 
 interface Props {
   items: Array<OpenJDK>,
@@ -65,7 +67,9 @@ class OpenJDKList extends React.Component<Props, State> {
         bundle: undefined,
         os: undefined,
         fx: undefined
-      }
+      },
+      loaded: false,
+      error: false,
     };
     this.client = new RestClient();
   }
@@ -82,9 +86,42 @@ class OpenJDKList extends React.Component<Props, State> {
   }
 
   fetchList = (): void => {
+    try {
     this.client.fetchList().then((items) =>
       this.filtering(items)
     )
+    this.setState({
+      items: this.state.items,
+      displayItems: this.state.displayItems,
+      page: this.state.page,
+      vendors: this.state.vendors,
+      versions: this.state.versions,
+      architectures: this.state.architectures,
+      types: this.state.types,
+      bundles: this.state.bundles,
+      os: this.state.os,
+      fx: this.state.fx,
+      condition: this.state.condition,
+      loaded: true,
+      error: this.state.error
+    })
+  } catch (e) {
+    this.setState({
+      items: this.state.items,
+      displayItems: this.state.displayItems,
+      page: this.state.page,
+      vendors: this.state.vendors,
+      versions: this.state.versions,
+      architectures: this.state.architectures,
+      types: this.state.types,
+      bundles: this.state.bundles,
+      os: this.state.os,
+      fx: this.state.fx,
+      condition: this.state.condition,
+      loaded: false,
+      error: true
+    })
+  }
   }
 
   fetchVendors = (): void => {
@@ -210,7 +247,9 @@ class OpenJDKList extends React.Component<Props, State> {
       bundles: this.state.bundles,
       os: this.state.os,
       fx: this.state.fx,
-      condition: filter ? filter : this.state.condition
+      condition: filter ? filter : this.state.condition,
+      loaded: this.state.loaded,
+      error: this.state.error,
     })
   }
 
@@ -383,6 +422,9 @@ class OpenJDKList extends React.Component<Props, State> {
 
     return (
       <React.Fragment>
+        <Backdrop open invisible={this.state.loaded} transitionDuration={60 * 1000}>
+          <CircularProgress color="inherit" disableShrink />
+        </Backdrop>
         <Container fixed>
           <FormControl fullWidth>
             <Paper variant="outlined">

@@ -16,7 +16,7 @@ class RestClient {
         return res.json()
       } else {
         console.log('error!')
-        return []
+        throw res
       }
     })
 
@@ -34,7 +34,7 @@ class RestClient {
         return res.json()
       } else {
         console.log('error!')
-        return []
+        throw res
       }
     })
 
@@ -52,7 +52,7 @@ class RestClient {
         return res.json()
       } else {
         console.log('error!')
-        return []
+        throw res
       }
     })
 
@@ -70,7 +70,7 @@ class RestClient {
         return res.json()
       } else {
         console.log('error!')
-        return []
+        throw res
       }
     })
 
@@ -88,7 +88,7 @@ class RestClient {
         return res.json()
       } else {
         console.log('error!')
-        return []
+        throw res
       }
     })
 
@@ -106,7 +106,7 @@ class RestClient {
         return res.json()
       } else {
         console.log('error!')
-        return []
+        throw res
       }
     })
 
@@ -124,7 +124,7 @@ class RestClient {
         return res.json()
       } else {
         console.log('error!')
-        return []
+        throw res
       }
     })
 
