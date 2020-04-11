@@ -7,7 +7,6 @@ import com.github.poad.openjdk.finder.backend.entity.JavaVersion;
 import com.github.poad.openjdk.finder.backend.service.JavaVersionService;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
