@@ -84,15 +84,15 @@ export const Layout: React.FC<LayoutProps> = (props) => {
         {['Info'].map((text) => (
           <ListItem button key={text} className={classes.menuItem}>
             <ListItemIcon className={classes.menuItem}><DashboardIcon /></ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemText className={classes.menuItem}>{text}</ListItemText>
           </ListItem>
         ))}
-        <ListItem button key={'GitHub'} className={classes.menuItem}>
-          <Link href="https://github.com/poad/openjdk-finder">
+        <Link href="https://github.com/poad/openjdk-finder">
+          <ListItem button key={'GitHub'} className={classes.menuItem}>
             <ListItemIcon className={classes.menuItem}><GitHubIcon /></ListItemIcon>
-            <ListItemText primary={'Source Code'} />
-          </Link>
-        </ListItem>
+            <ListItemText className={classes.menuItem}>Source Code</ListItemText>
+          </ListItem>
+        </Link>
       </List>
     </div>
   );
