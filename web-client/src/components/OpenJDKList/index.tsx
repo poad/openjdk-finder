@@ -258,7 +258,7 @@ class OpenJDKList extends React.Component<Props, State> {
     var displayItems = items;
     if (filter) {
       displayItems = filter.vendor ? displayItems.filter(item => item.vendor == filter.vendor) : displayItems;
-      displayItems = filter.version ? displayItems.filter(item => Number(item.version) == filter.version) : displayItems;
+      displayItems = filter.version ? displayItems.filter(item => Number(item.majorVersion) == filter.version) : displayItems;
       displayItems = filter.architecture ? displayItems.filter(item => item.arch == filter.architecture) : displayItems;
       displayItems = filter.os ? displayItems.filter(item => item.os == filter.os) : displayItems;
       displayItems = filter.type ? displayItems.filter(item => item.type == filter.type) : displayItems;
