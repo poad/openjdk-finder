@@ -5,7 +5,7 @@
   "scripts": {
     "test": "jest --passWithNoTests",
     "dev": "next",
-    "build": "next build && next export && rm -rf build && mv out build",
+    "build": "API_ENDPOINT=http://localhost:8089 next build && next export && rm -rf build && mv out build",
     "start": "next start",
     "lint": "eslint --ext .ts,.js,.tsx,.jsx src"
   },
