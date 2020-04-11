@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
@@ -146,5 +148,40 @@ public class JavaVersionController {
                         item.getId(), item.getVendor(), item.getDistribution(), item.getMajorVersion(), item.getArch(), item.getVersion(), item.getInstallationType(), item.getExtension(), item.getUrl(), item.getType(), item.getBundle(), item.getFx(), item.getOs(), item.getTimestamp()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping(path = "/vendors", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Set<String> vendors() throws ExecutionException, InterruptedException {
+        return new HashSet<>(service.vendors());
+    }
+
+    @GetMapping(path = "/versions", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Set<Integer> versions() throws ExecutionException, InterruptedException {
+        return new HashSet<>(service.versions());
+    }
+
+    @GetMapping(path = "/architectures", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Set<String> architectures() throws ExecutionException, InterruptedException {
+        return new HashSet<>(service.architectures());
+    }
+
+    @GetMapping(path = "/distributions", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Set<String> distributions() throws ExecutionException, InterruptedException {
+        return new HashSet<>(service.distributions());
+    }
+
+    @GetMapping(path = "/os", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Set<String> os() throws ExecutionException, InterruptedException {
+        return new HashSet<>(service.os());
+    }
+
+    @GetMapping(path = "/types", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Set<String> types() throws ExecutionException, InterruptedException {
+        return new HashSet<>(service.types());
+    }
+
+    @GetMapping(path = "/bundles", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Set<String> bundles() throws ExecutionException, InterruptedException {
+        return new HashSet<>(service.bundles());
     }
 }

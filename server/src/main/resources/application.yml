@@ -13,3 +13,8 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
+
+app:
+  cors:
+    origins:
+      - http://localhost:3000
