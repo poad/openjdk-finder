@@ -5,7 +5,7 @@ export interface Config {
 const config: Config = {
   endpoint: process.env.API_ENDPOINT
     ? process.env.API_ENDPOINT
-    : 'http://localhost:8089/'
+    : 'https://openjdk-finder.netlify.com/'
 }
 
 export default config
