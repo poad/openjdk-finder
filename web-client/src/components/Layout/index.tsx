@@ -14,6 +14,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme, Theme, createStyles } from '@material-ui/core/styles';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import { Link } from '@material-ui/core';
 
 const drawerWidth = 240;
 
@@ -85,6 +87,12 @@ export const Layout: React.FC<LayoutProps> = (props) => {
             <ListItemText primary={text} />
           </ListItem>
         ))}
+        <ListItem button key={'GitHub'} className={classes.menuItem}>
+          <Link href="https://github.com/poad/openjdk-finder">
+            <ListItemIcon className={classes.menuItem}><GitHubIcon /></ListItemIcon>
+            <ListItemText primary={'Source Code'} />
+          </Link>
+        </ListItem>
       </List>
     </div>
   );

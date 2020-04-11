@@ -511,7 +511,7 @@ public class SapMachineGitHubApiClient extends JsonHttpClient implements OpenJdk
                                                 s.packageType.type.equals("installer") ? s.packageType.ext : null,
                                                 asset.browserDownloadUrl,
                                                 "hotspot",
-                                                s.os.pkgName,
+                                                s.os.name,
                                                 s.bundle.name,
                                                 false,
                                                 asset.updatedAt
