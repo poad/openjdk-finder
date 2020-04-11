@@ -22,6 +22,7 @@ import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Backdrop from '@material-ui/core/Backdrop';
+import Dialog from '@material-ui/core/Dialog';
 
 interface Props {
   items: Array<OpenJDK>,
@@ -75,6 +76,7 @@ class OpenJDKList extends React.Component<Props, State> {
   }
 
   componentDidMount(): void {
+    this.openLoading()
     this.fetchVendors()
     this.fetchVersions()
     this.fetchArchitectures()
@@ -87,9 +89,34 @@ class OpenJDKList extends React.Component<Props, State> {
 
   fetchList = (): void => {
     try {
-    this.client.fetchList().then((items) =>
-      this.filtering(items)
-    )
+      this.client.fetchList().then((items) =>
+        this.filtering(items)
+      )
+      this.closeLoading();
+    } catch (e) {
+      this.openErrorDialog();
+    }
+  }
+
+  openLoading = (): void => {
+    this.setState({
+      items: this.state.items,
+      displayItems: this.state.displayItems,
+      page: this.state.page,
+      vendors: this.state.vendors,
+      versions: this.state.versions,
+      architectures: this.state.architectures,
+      types: this.state.types,
+      bundles: this.state.bundles,
+      os: this.state.os,
+      fx: this.state.fx,
+      condition: this.state.condition,
+      loaded: false,
+      error: false
+    })
+  }
+
+  closeLoading = (): void => {
     this.setState({
       items: this.state.items,
       displayItems: this.state.displayItems,
@@ -103,9 +130,11 @@ class OpenJDKList extends React.Component<Props, State> {
       fx: this.state.fx,
       condition: this.state.condition,
       loaded: true,
-      error: this.state.error
+      error: false
     })
-  } catch (e) {
+  }
+
+  openErrorDialog = (): void => {
     this.setState({
       items: this.state.items,
       displayItems: this.state.displayItems,
@@ -121,7 +150,6 @@ class OpenJDKList extends React.Component<Props, State> {
       loaded: false,
       error: true
     })
-  }
   }
 
   fetchVendors = (): void => {
@@ -236,6 +264,7 @@ class OpenJDKList extends React.Component<Props, State> {
       displayItems = filter.type ? displayItems.filter(item => item.type == filter.type) : displayItems;
       displayItems = filter.bundle ? displayItems.filter(item => item.bundle == filter.bundle) : displayItems;
     }
+
     this.setState({
       items: items,
       displayItems: displayItems,
@@ -422,9 +451,10 @@ class OpenJDKList extends React.Component<Props, State> {
 
     return (
       <React.Fragment>
-        <Backdrop open invisible={this.state.loaded} transitionDuration={60 * 1000}>
+        <Backdrop open={!this.state.loaded} invisible={this.state.loaded} transitionDuration={60 * 1000}>
           <CircularProgress color="inherit" disableShrink />
         </Backdrop>
+        <Dialog open={this.state.error}>error!</Dialog>
         <Container fixed>
           <FormControl fullWidth>
             <Paper variant="outlined">
@@ -562,7 +592,7 @@ class OpenJDKList extends React.Component<Props, State> {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {this.state.items.slice(this.state.page.page * this.state.page.rowsPerPage, this.state.page.page * this.state.page.rowsPerPage + this.state.page.rowsPerPage).map((item) =>
+                  {this.state.displayItems.slice(this.state.page.page * this.state.page.rowsPerPage, this.state.page.page * this.state.page.rowsPerPage + this.state.page.rowsPerPage).map((item) =>
                     <TableRow key={item.id}>
                       <TableCell>{item.vendor}</TableCell>
                       <TableCell>{item.version}</TableCell>

@@ -1,12 +1,18 @@
 server:
-    port: ${PORT}
+  port: ${PORT}
 
 spring:
-    datasource:
-      url: ${JDBC_DATABASE_URL}
-      username: ${JDBC_DATABASE_USERNAME}
-      password: ${JDBC_DATABASE_PASSWORD}
-      tomcat:
-        jmx-enabled: true
-        max-active: 20
-        min-idle: 10
+  datasource:
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
+    tomcat:
+      jmx-enabled: true
+      max-active: 20
+      min-idle: 10
+
+
+app:
+  cors:
+    origins:
+      - http://localhost:3000/
