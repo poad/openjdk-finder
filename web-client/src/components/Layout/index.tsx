@@ -74,8 +74,7 @@ export const Layout: React.FC<LayoutProps> = (props) => {
   function handleDrawerToggle() {
     setMobileOpen(!mobileOpen);
   }
-  
-  
+
   const drawer = (
     <div>
       <div className={classes.toolbar} />

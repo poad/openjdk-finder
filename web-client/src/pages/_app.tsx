@@ -26,14 +26,14 @@ class MyApp extends App {
         : window.location.pathname
     );
   };
-  
+
   render() {
     const { Component, pageProps } = this.props;
     return (
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <Head>
-          <title>Home</title>
+          <title>OpenJDK Finder</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
         {/* ThemeProvider makes the theme available down the React
