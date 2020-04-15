@@ -2,6 +2,9 @@ package com.github.poad.openjdk.finder.backend.client;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+import org.apache.http.HttpStatus;
+import org.apache.http.protocol.HTTP;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -16,7 +19,14 @@ public abstract class JsonHttpClient {
     protected <T> T request(HttpClient client, String url, Class<T> type) {
         try {
             var response = request(client, url);
+            if (response.statusCode() != HttpStatus.SC_OK) {
+                throw new UncheckedIOException(new IOException(response.body()));
+            }
             return mapper.readValue(response.body(), type);
+        } catch (UnrecognizedPropertyException e) {
+            System.err.println(url);
+            e.printStackTrace(System.err);
+            throw new UncheckedIOException(e);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

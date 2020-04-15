@@ -34,6 +34,9 @@ public class JavaVersionService {
     }
 
     public void delete(List<String> ids) {
+        if (ids.isEmpty()) {
+            return;
+        }
         jdbi.withExtension(JavaVersionRepository.class, repository -> {
             repository.delete(distribution, ids);
             return null;
