@@ -24,7 +24,7 @@ public class ZuluCommunityV1ApiClient extends JsonHttpClient implements OpenJdkA
         LINUX("linux"),
         LINUX_MUSL("linux_musl"),
         MACOS("macos"),
-//        QNX("qnx"),
+        //        QNX("qnx"),
         WINDOWS("windows"),
         SOLARIS("solaris");
 
@@ -38,7 +38,7 @@ public class ZuluCommunityV1ApiClient extends JsonHttpClient implements OpenJdkA
     @SuppressWarnings("unused")
     private enum Arch {
         ARM("arm"),
-//        MIPS("mips"),
+        //        MIPS("mips"),
         PPC("ppc"),
         X86("x86"),
         SPARC_V9("sparcv9");
@@ -222,6 +222,7 @@ public class ZuluCommunityV1ApiClient extends JsonHttpClient implements OpenJdkA
         private final Long size;
         private final String md5Hash;
         private final String sha256Hash;
+        private final Integer releaseStatus;
         private final List<String> features;
 
         @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
@@ -240,6 +241,7 @@ public class ZuluCommunityV1ApiClient extends JsonHttpClient implements OpenJdkA
                 @JsonProperty("size") Long size,
                 @JsonProperty("md5_hash") String md5Hash,
                 @JsonProperty("sha256_hash") String sha256Hash,
+                @JsonProperty("release_status") Integer releaseStatus,
                 @JsonProperty("features") List<String> features) {
             this.id = id;
             this.arch = arch;
@@ -255,6 +257,7 @@ public class ZuluCommunityV1ApiClient extends JsonHttpClient implements OpenJdkA
             this.size = size;
             this.md5Hash = md5Hash;
             this.sha256Hash = sha256Hash;
+            this.releaseStatus = releaseStatus;
             this.features = features;
         }
 
@@ -328,6 +331,11 @@ public class ZuluCommunityV1ApiClient extends JsonHttpClient implements OpenJdkA
             return sha256Hash;
         }
 
+        @SuppressWarnings("unchecked")
+        public Integer getReleaseStatus() {
+            return releaseStatus;
+        }
+
         @SuppressWarnings("unused")
         public List<String> getFeatures() {
             return features;
@@ -345,7 +353,7 @@ public class ZuluCommunityV1ApiClient extends JsonHttpClient implements OpenJdkA
 
         var urls = majorVersions
                 .stream()
-                .map(majorVersion -> Map.entry(String.format("%s-%s", "zulu", majorVersion), String.format("%s/latest/?jdk_version=%s", Endpoint.LIST, majorVersion)))
+                .map(majorVersion -> Map.entry(String.format("%s-%s", "zulu", majorVersion), String.format("%slatest/?jdk_version=%s", Endpoint.LIST, majorVersion)))
                 .flatMap(entry ->
                         Stream.of(Bundle.values()).map(bundle -> Map.entry(String.format("%s-%s", entry.getKey(), bundle.name), String.format("%s&bundle_type=%s", entry.getValue(), bundle.name)))
                 )
@@ -384,7 +392,7 @@ public class ZuluCommunityV1ApiClient extends JsonHttpClient implements OpenJdkA
                 .filter(entry -> Stream.of(Whitelist.values()).anyMatch(e -> entry.getKey().endsWith(e.pattern)))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-        return urls.entrySet()
+        var versions = urls.entrySet()
                 .stream()
                 .map(entry -> {
                     Optional<Map.Entry<String, BundleDescriptionDetail>> ent;
@@ -397,28 +405,30 @@ public class ZuluCommunityV1ApiClient extends JsonHttpClient implements OpenJdkA
                 })
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .map(entry ->
-                        {
-                            String architecture = arch(entry.getValue().arch, entry.getValue().hwBitness);
-                            return Map.entry(entry.getKey(),
-                                    new JavaVersion(
-                                            entry.getKey(),
-                                            "zulu",
-                                            "zulu",
-                                            entry.getValue().jdkVersion.get(0),
-                                            architecture,
-                                            entry.getValue().jdkVersion.stream().map(Object::toString).collect(Collectors.joining(".")),
-                                            Ext.fromExt(entry.getValue().ext).orElseThrow(RuntimeException::new).type,
-                                            Ext.fromExt(entry.getValue().ext).orElseThrow(RuntimeException::new).type.equals("archive") ? null : entry.getValue().ext,
-                                            entry.getValue().url,
-                                            "hotspot",
-                                            entry.getValue().os,
-                                            entry.getValue().bundleType,
-                                            entry.getValue().features.contains("fx"),
-                                            entry.getValue().lastModified
-                                    ));
-                        }
-                )
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        return versions.entrySet().stream().map(entry ->
+                {
+                    String architecture = arch(entry.getValue().arch, entry.getValue().hwBitness);
+                    return Map.entry(entry.getKey(),
+                            new JavaVersion(
+                                    entry.getKey(),
+                                    "zulu",
+                                    "zulu",
+                                    entry.getValue().jdkVersion.get(0),
+                                    architecture,
+                                    entry.getValue().jdkVersion.stream().map(Object::toString).collect(Collectors.joining(".")),
+                                    Ext.fromExt(entry.getValue().ext).orElseThrow(RuntimeException::new).type,
+                                    Ext.fromExt(entry.getValue().ext).orElseThrow(RuntimeException::new).type.equals("archive") ? null : entry.getValue().ext,
+                                    entry.getValue().url,
+                                    "hotspot",
+                                    entry.getValue().os,
+                                    entry.getValue().bundleType,
+                                    entry.getValue().features.contains("fx"),
+                                    entry.getValue().lastModified
+                            ));
+                }
+        )
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
     }
