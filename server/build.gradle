@@ -32,7 +32,6 @@ test {
 }
 
 jib.from.image = 'mcr.microsoft.com/java/jre-headless:11-zulu-alpine'
-jib.to.image = 'poad/spring-data-jpa-async'
 jib.to.tags = [ version ]
 jib.container.creationTime = 'USE_CURRENT_TIMESTAMP'
 jib.container.ports = [ '8089' ]

@@ -9,12 +9,24 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.Set;
+
 @EnableAsync
 @SpringBootApplication
 @EnableConfigurationProperties(Cors.class)
 public class OpenjdkFinderApplication {
 
 	private final Cors cors;
+	private final Set<String> paths = Set.of(
+			"/",
+			"/vendors",
+			"/versions",
+			"/architectures",
+			"/distributions",
+			"/os",
+			"/types",
+			"/bundles"
+	);
 
 	OpenjdkFinderApplication(Cors cors) {
 		this.cors = cors;
@@ -31,14 +43,9 @@ public class OpenjdkFinderApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				cors.getOrigins().ifPresent(origins -> origins.forEach(origin -> {
-					registry.addMapping("/").allowedOrigins(origin);
-					registry.addMapping("/vendors").allowedOrigins(origin);
-					registry.addMapping("/versions").allowedOrigins(origin);
-					registry.addMapping("/architectures").allowedOrigins(origin);
-					registry.addMapping("/distributions").allowedOrigins(origin);
-					registry.addMapping("/os").allowedOrigins(origin);
-					registry.addMapping("/types").allowedOrigins(origin);
-					registry.addMapping("/bundles").allowedOrigins(origin);
+					paths.forEach(
+							path -> registry.addMapping(path).allowedOrigins(origin)
+					);
 				}));
 			}
 		};
