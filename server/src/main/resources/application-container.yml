@@ -15,4 +15,4 @@ spring:
 app:
   cors:
     origins:
-      - https://openjdk-finder.netlify.com
+      - https://openjdk-finder.netlify.app

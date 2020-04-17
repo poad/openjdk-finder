@@ -1,6 +1,8 @@
 package com.github.poad.openjdk.finder;
 
 import com.github.poad.openjdk.finder.config.Cors;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -27,6 +29,7 @@ public class OpenjdkFinderApplication {
 			"/types",
 			"/bundles"
 	);
+	private final Logger log = LogManager.getLogger(this.getClass());
 
 	OpenjdkFinderApplication(Cors cors) {
 		this.cors = cors;
@@ -39,6 +42,9 @@ public class OpenjdkFinderApplication {
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		var cors = this.cors;
+
+		cors.getOrigins().ifPresent(origin -> origin.forEach(log::info));
+
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {

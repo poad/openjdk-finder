@@ -1,20 +1,39 @@
-import fetch from 'isomorphic-unfetch';
+import axios, { AxiosRequestConfig } from 'axios'
 import config from './Config'
 import { OpenJDK } from '../store/openjdk/types'
 
 class RestClient {
-  endpoint = config.endpoint
+  endpoint = config.endpoint;
+  client: AxiosRequestConfig = axios.defaults;
+
+  constructor() {
+    this.client.baseURL = this.endpoint;
+  }
+
+
+
+  private async options(path?: string): Promise<void> {
+    await axios.get<Array<OpenJDK>>(path ? path : '/')
+    .then((res) => {
+      if (res.status == 200) {
+        console.log(res.headers);
+        return;
+      } else {
+        console.log('error!')
+        throw res
+      }
+    })
+
+    return;
+  }
 
   async fetchList(): Promise<Array<OpenJDK>> {
-    const json = await fetch(this.endpoint, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json'
-      },
-      mode: 'cors'
-    }).then((res) => {
-      if (res.ok) {
-        return res.json()
+    await this.options();
+
+    const json = await axios.get<Array<OpenJDK>>('/')
+    .then((res) => {
+      if (res.status == 200) {
+        return res.data
       } else {
         console.log('error!')
         throw res
@@ -25,15 +44,12 @@ class RestClient {
   }
 
   async fetchVedorList(): Promise<Array<string>> {
-    const json = await fetch(`${this.endpoint}vendors`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json'
-      },
-      mode: 'cors'
-    }).then((res) => {
-      if (res.ok) {
-        return res.json()
+    await this.options();
+
+    const json = await axios.get<Array<string>>('/vendors')
+    .then((res) => {
+      if (res.status == 200) {
+        return res.data
       } else {
         console.log('error!')
         throw res
@@ -44,15 +60,12 @@ class RestClient {
   }
 
   async fetchVersionList(): Promise<Array<number>> {
-    const json = await fetch(`${this.endpoint}versions`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json'
-      },
-      mode: 'cors'
-    }).then((res) => {
-      if (res.ok) {
-        return res.json()
+    await this.options();
+    
+    const json = await axios.get<Array<number>>('/versions')
+    .then((res) => {
+      if (res.status == 200) {
+        return res.data
       } else {
         console.log('error!')
         throw res
@@ -63,15 +76,12 @@ class RestClient {
   }
 
   async fetchTypeList(): Promise<Array<string>> {
-    const json = await fetch(`${this.endpoint}types`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json'
-      },
-      mode: 'cors'
-    }).then((res) => {
-      if (res.ok) {
-        return res.json()
+    await this.options();
+    
+    const json = await axios.get<Array<string>>('/types')
+    .then((res) => {
+      if (res.status == 200) {
+        return res.data
       } else {
         console.log('error!')
         throw res
@@ -82,15 +92,12 @@ class RestClient {
   }
 
   async fetchArchitectureList(): Promise<Array<string>> {
-    const json = await fetch(`${this.endpoint}architectures`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json'
-      },
-      mode: 'cors'
-    }).then((res) => {
-      if (res.ok) {
-        return res.json()
+    await this.options();
+    
+    const json = await axios.get<Array<string>>('/architectures')
+    .then((res) => {
+      if (res.status == 200) {
+        return res.data
       } else {
         console.log('error!')
         throw res
@@ -101,15 +108,12 @@ class RestClient {
   }
 
   async fetchBundleList(): Promise<Array<string>> {
-    const json = await fetch(`${this.endpoint}bundles`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json'
-      },
-      mode: 'cors'
-    }).then((res) => {
-      if (res.ok) {
-        return res.json()
+    await this.options();
+    
+    const json = await axios.get<Array<string>>('/bundles')
+    .then((res) => {
+      if (res.status == 200) {
+        return res.data
       } else {
         console.log('error!')
         throw res
@@ -120,15 +124,12 @@ class RestClient {
   }
 
   async fetchOsList(): Promise<Array<string>> {
-    const json = await fetch(`${this.endpoint}os`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json'
-      },
-      mode: 'cors'
-    }).then((res) => {
-      if (res.ok) {
-        return res.json()
+    await this.options();
+    
+    const json = await axios.get<Array<string>>('/os')
+    .then((res) => {
+      if (res.status == 200) {
+        return res.data
       } else {
         console.log('error!')
         throw res
