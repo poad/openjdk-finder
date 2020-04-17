@@ -1,4 +1,4 @@
-import fetch from 'node-fetch'
+import fetch from 'isomorphic-unfetch';
 import config from './Config'
 import { OpenJDK } from '../store/openjdk/types'
 
@@ -10,7 +10,8 @@ class RestClient {
       method: 'GET',
       headers: {
         Accept: 'application/json'
-      }
+      },
+      mode: 'cors'
     }).then((res) => {
       if (res.ok) {
         return res.json()
@@ -28,7 +29,8 @@ class RestClient {
       method: 'GET',
       headers: {
         Accept: 'application/json'
-      }
+      },
+      mode: 'cors'
     }).then((res) => {
       if (res.ok) {
         return res.json()
@@ -46,7 +48,8 @@ class RestClient {
       method: 'GET',
       headers: {
         Accept: 'application/json'
-      }
+      },
+      mode: 'cors'
     }).then((res) => {
       if (res.ok) {
         return res.json()
@@ -64,7 +67,8 @@ class RestClient {
       method: 'GET',
       headers: {
         Accept: 'application/json'
-      }
+      },
+      mode: 'cors'
     }).then((res) => {
       if (res.ok) {
         return res.json()
@@ -82,7 +86,8 @@ class RestClient {
       method: 'GET',
       headers: {
         Accept: 'application/json'
-      }
+      },
+      mode: 'cors'
     }).then((res) => {
       if (res.ok) {
         return res.json()
@@ -100,7 +105,8 @@ class RestClient {
       method: 'GET',
       headers: {
         Accept: 'application/json'
-      }
+      },
+      mode: 'cors'
     }).then((res) => {
       if (res.ok) {
         return res.json()
@@ -118,7 +124,8 @@ class RestClient {
       method: 'GET',
       headers: {
         Accept: 'application/json'
-      }
+      },
+      mode: 'cors'
     }).then((res) => {
       if (res.ok) {
         return res.json()
