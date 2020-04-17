@@ -44,7 +44,7 @@ public class OpenjdkFinderApplication {
 			public void addCorsMappings(CorsRegistry registry) {
 				cors.getOrigins().ifPresent(origins -> origins.forEach(origin -> {
 					paths.forEach(
-							path -> registry.addMapping(path).allowedOrigins(origin)
+							path -> registry.addMapping(path).allowedMethods("GET", "HEAD", "OPTIONS").allowedOrigins(origin)
 					);
 				}));
 			}
