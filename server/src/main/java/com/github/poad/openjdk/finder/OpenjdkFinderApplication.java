@@ -18,42 +18,42 @@ import java.util.Set;
 @EnableConfigurationProperties(Cors.class)
 public class OpenjdkFinderApplication {
 
-	private final Cors cors;
-	private final Set<String> paths = Set.of(
-			"/",
-			"/vendors",
-			"/versions",
-			"/architectures",
-			"/distributions",
-			"/os",
-			"/types",
-			"/bundles"
-	);
-	private final Logger log = LogManager.getLogger(this.getClass());
+    private final Cors cors;
+    private final Set<String> paths = Set.of(
+            "/",
+            "/vendors",
+            "/versions",
+            "/architectures",
+            "/distributions",
+            "/os",
+            "/types",
+            "/bundles"
+    );
+    private final Logger log = LogManager.getLogger(this.getClass());
 
-	OpenjdkFinderApplication(Cors cors) {
-		this.cors = cors;
-	}
+    OpenjdkFinderApplication(Cors cors) {
+        this.cors = cors;
+    }
 
-	public static void main(String... args) {
-		SpringApplication.run(OpenjdkFinderApplication.class, args);
-	}
+    public static void main(String... args) {
+        SpringApplication.run(OpenjdkFinderApplication.class, args);
+    }
 
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		var cors = this.cors;
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        var cors = this.cors;
 
-		cors.getOrigins().ifPresent(origin -> origin.forEach(log::info));
+        cors.getOrigins().ifPresent(origin -> origin.forEach(log::info));
 
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				cors.getOrigins().ifPresent(origins -> origins.forEach(origin -> {
-					paths.forEach(
-							path -> registry.addMapping(path).allowedMethods("GET", "HEAD", "OPTIONS").allowedOrigins(origin)
-					);
-				}));
-			}
-		};
-	}
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                cors.getOrigins().ifPresent(origins ->
+                        paths.forEach(
+                                path -> registry.addMapping(path).allowedMethods("GET", "HEAD", "OPTIONS").allowedOrigins(origins.toArray(new String[0]))
+                        )
+                );
+            }
+        };
+    }
 }

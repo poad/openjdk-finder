@@ -11,25 +11,7 @@ class RestClient {
   }
 
 
-
-  private async options(path?: string): Promise<void> {
-    await axios.get<Array<OpenJDK>>(path ? path : '/')
-    .then((res) => {
-      if (res.status == 200) {
-        console.log(res.headers);
-        return;
-      } else {
-        console.log('error!')
-        throw res
-      }
-    })
-
-    return;
-  }
-
   async fetchList(): Promise<Array<OpenJDK>> {
-    await this.options();
-
     const json = await axios.get<Array<OpenJDK>>('/')
     .then((res) => {
       if (res.status == 200) {
@@ -44,8 +26,6 @@ class RestClient {
   }
 
   async fetchVedorList(): Promise<Array<string>> {
-    await this.options();
-
     const json = await axios.get<Array<string>>('/vendors')
     .then((res) => {
       if (res.status == 200) {
@@ -60,8 +40,6 @@ class RestClient {
   }
 
   async fetchVersionList(): Promise<Array<number>> {
-    await this.options();
-    
     const json = await axios.get<Array<number>>('/versions')
     .then((res) => {
       if (res.status == 200) {
@@ -76,8 +54,6 @@ class RestClient {
   }
 
   async fetchTypeList(): Promise<Array<string>> {
-    await this.options();
-    
     const json = await axios.get<Array<string>>('/types')
     .then((res) => {
       if (res.status == 200) {
@@ -92,8 +68,6 @@ class RestClient {
   }
 
   async fetchArchitectureList(): Promise<Array<string>> {
-    await this.options();
-    
     const json = await axios.get<Array<string>>('/architectures')
     .then((res) => {
       if (res.status == 200) {
@@ -108,8 +82,6 @@ class RestClient {
   }
 
   async fetchBundleList(): Promise<Array<string>> {
-    await this.options();
-    
     const json = await axios.get<Array<string>>('/bundles')
     .then((res) => {
       if (res.status == 200) {
@@ -124,8 +96,6 @@ class RestClient {
   }
 
   async fetchOsList(): Promise<Array<string>> {
-    await this.options();
-    
     const json = await axios.get<Array<string>>('/os')
     .then((res) => {
       if (res.status == 200) {
