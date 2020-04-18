@@ -2,7 +2,19 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
-version: 2
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          filters:  # using regex filters requires the entire branch to match
+            branches:
+              only:  # only branches matching the below regex filters will run
+                - master
+          requires:
+            - build
+
 jobs:
   build:
     docker:
@@ -15,7 +27,6 @@ jobs:
       # - image: circleci/postgres:12.2
       #   environment:
       #     POSTGRES_USER: root
-
 
     working_directory: ~/repo
 
@@ -44,10 +55,27 @@ jobs:
       # run tests!
       # - run: cd server && ./gradlew test
 
-      - run: docker login --username=_ --password=${HEROKU_TOKEN} registry.heroku.com
-
       - setup_remote_docker
+
+      - run: docker login --username=_ --password=${HEROKU_TOKEN} registry.heroku.com
 
       - run: cd server && ./gradlew -Djib.to.image=registry.heroku.com/${HEROKU_APP}/web jibDockerBuild
       - run: docker push registry.heroku.com/${HEROKU_APP}/web
-      - run: heroku container\:release -a ${HEROKU_APP} web
+
+  deploy:
+    docker:
+      - image: circleci/buildpack-deps:bionic-curl-browsers
+    steps:
+      - checkout
+
+      - setup_remote_docker
+
+      - run: docker login --username=_ --password=${HEROKU_TOKEN} registry.heroku.com
+
+      - run: docker pull registry.heroku.com/${HEROKU_APP}/web:latest
+
+      - run:
+          name: Release Heroku application
+          command: > 
+            .circleci/heroku_release.sh
+          
