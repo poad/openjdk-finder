@@ -7,12 +7,15 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/openjdk:8-jdk
+      - image: circleci/openjdk:11-jdk
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
+      # - image: circleci/postgres:12.2
+      #   environment:
+      #     POSTGRES_USER: root
+
 
     working_directory: ~/repo
 
@@ -27,20 +30,24 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "build.gradle" }}
+            - v1-dependencies-{{ checksum "server/build.gradle" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: gradle dependencies
+      - run: cd server && ./gradlew dependencies
 
       - save_cache:
           paths:
             - ~/.gradle
-          key: v1-dependencies-{{ checksum "build.gradle" }}
+          key: v1-dependencies-{{ checksum "server/build.gradle" }}
 
       # run tests!
-      - run: gradle test
-      - run: docker login --username=_ --password=$(heroku auth:token) registry.heroku.com
-      - run: ./gradlew -Djib.to.image=registry.heroku.com/${HEROKU_APP}/web jibDockerBuild && \
-docker push registry.heroku.com/${HEROKU_APP}/web && \
-heroku container:release -a ${HEROKU_APP} web
+      # - run: cd server && ./gradlew test
+
+      - run: docker login --username=_ --password=${HEROKU_TOKEN} registry.heroku.com
+
+      - setup_remote_docker
+
+      - run: cd server && ./gradlew -Djib.to.image=registry.heroku.com/${HEROKU_APP}/web jibDockerBuild
+      - run: docker push registry.heroku.com/${HEROKU_APP}/web
+      - run: heroku container\:release -a ${HEROKU_APP} web
