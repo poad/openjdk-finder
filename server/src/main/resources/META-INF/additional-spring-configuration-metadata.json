@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "app.cors.origins",
+      "type": "java.util.List<java.lang.String>",
+      "description": "Description for app.cors.origins."
+    }
+  ]
+}
