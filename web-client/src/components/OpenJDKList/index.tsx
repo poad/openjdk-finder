@@ -333,26 +333,11 @@ class OpenJDKList extends React.Component<Props, State> {
     };
 
     const handleChangePage = (_: unknown, newPage: number) => {
-      this.setState({
-        items: this.state.items,
-        page: {
-          page: newPage,
-          rowsPerPage: this.state.page.rowsPerPage
-        },
-        vendors: this.state.vendors,
-        versions: this.state.versions,
-        architectures: this.state.architectures,
-        types: this.state.types,
-        bundles: this.state.bundles,
-        os: this.state.os,
-        fx: this.state.fx,
-        condition: this.state.condition
-      });
+      setPage(newPage);
     };
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setRowsPerPage(+event.target.value);
-      setPage(0);
+      setRowsPerPage(Number.parseInt(event.target.value));
     };
 
     const onChangeState = (condition: Filter) => {
@@ -474,7 +459,7 @@ class OpenJDKList extends React.Component<Props, State> {
                   >
                     <MenuItem>ALL</MenuItem>
                     {this.state.vendors.map(vendor =>
-                      <MenuItem value={vendor}>{vendor}</MenuItem>
+                      <MenuItem key={vendor} value={vendor}>{vendor}</MenuItem>
                     )}
                   </TextField>
                 </Grid>
@@ -490,7 +475,7 @@ class OpenJDKList extends React.Component<Props, State> {
                   >
                     <MenuItem>ALL</MenuItem>
                     {this.state.versions.map(version =>
-                      <MenuItem value={version}>{version}</MenuItem>
+                      <MenuItem key={version} value={version}>{version}</MenuItem>
                     )}
                   </TextField>
                 </Grid>
@@ -505,7 +490,7 @@ class OpenJDKList extends React.Component<Props, State> {
                   >
                     <MenuItem>ALL</MenuItem>
                     {this.state.architectures.map(architecture =>
-                      <MenuItem value={architecture}>{architecture}</MenuItem>
+                      <MenuItem key={architecture} value={architecture}>{architecture}</MenuItem>
                     )}
                   </TextField>
                 </Grid>
@@ -520,7 +505,7 @@ class OpenJDKList extends React.Component<Props, State> {
                   >
                     <MenuItem>ALL</MenuItem>
                     {this.state.types.map(type =>
-                      <MenuItem value={type}>{type}</MenuItem>
+                      <MenuItem key={type} value={type}>{type}</MenuItem>
                     )}
                   </TextField>
                 </Grid>
@@ -535,7 +520,7 @@ class OpenJDKList extends React.Component<Props, State> {
                   >
                     <MenuItem>ALL</MenuItem>
                     {this.state.bundles.map(bundle =>
-                      <MenuItem value={bundle}>{bundle}</MenuItem>
+                      <MenuItem key={bundle} value={bundle}>{bundle}</MenuItem>
                     )}
                   </TextField>
                 </Grid>
@@ -550,7 +535,7 @@ class OpenJDKList extends React.Component<Props, State> {
                   >
                     <MenuItem>ALL</MenuItem>
                     {this.state.os.map(os =>
-                      <MenuItem value={os}>{os}</MenuItem>
+                      <MenuItem key={os} value={os}>{os}</MenuItem>
                     )}
                   </TextField>
                 </Grid>
@@ -563,9 +548,9 @@ class OpenJDKList extends React.Component<Props, State> {
                     onChange={onFxChange}
                     fullWidth
                   >
-                    <MenuItem>ALL</MenuItem>
-                    <MenuItem value='true'>with FX</MenuItem>
-                    <MenuItem value='false'>without FX</MenuItem>
+                    <MenuItem key={'ALL'}>ALL</MenuItem>
+                    <MenuItem key={'false'} value='true'>with FX</MenuItem>
+                    <MenuItem key={'true'} value='false'>without FX</MenuItem>
                   </TextField>
                 </Grid>
               </Grid>
