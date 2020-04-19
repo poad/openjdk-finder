@@ -1,0 +1,81 @@
+# Java Gradle CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-java/ for more details
+#
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          filters:  # using regex filters requires the entire branch to match
+            branches:
+              only:  # only branches matching the below regex filters will run
+                - master
+          requires:
+            - build
+
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/openjdk:11-jdk
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:12.2
+      #   environment:
+      #     POSTGRES_USER: root
+
+    working_directory: ~/repo
+
+    environment:
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "server/build.gradle" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: cd server && ./gradlew dependencies
+
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "server/build.gradle" }}
+
+      # run tests!
+      # - run: cd server && ./gradlew test
+
+      - setup_remote_docker
+
+      - run: docker login --username=_ --password=${HEROKU_TOKEN} registry.heroku.com
+
+      - run: cd server && ./gradlew -Djib.to.image=registry.heroku.com/${HEROKU_APP}/web jibDockerBuild
+      - run: docker push registry.heroku.com/${HEROKU_APP}/web
+
+  deploy:
+    docker:
+      - image: circleci/buildpack-deps:bionic-curl-browsers
+    steps:
+      - checkout
+
+      - setup_remote_docker
+
+      - run: docker login --username=_ --password=${HEROKU_TOKEN} registry.heroku.com
+
+      - run: docker pull registry.heroku.com/${HEROKU_APP}/web:latest
+
+      - run:
+          name: Release Heroku application
+          command: > 
+            .circleci/heroku_release.sh
+          
