@@ -1,5 +1,6 @@
 package com.github.poad.openjdk.finder.backend.entity;
 
+@SuppressWarnings("unused")
 public class JavaVersion {
 
     private final String id;
@@ -28,9 +29,15 @@ public class JavaVersion {
 
     private final Boolean fx;
 
+    private final String checksumType;
+
+    private final String checksum;
+
+    private final String sigUrl;
+
     private final String timestamp;
 
-    public JavaVersion(String id, String vendor, String distribution, int majorVersion, String arch, String version, String installationType, String extension, String url, String type, String os, String bundle, Boolean fx, String timestamp) {
+    public JavaVersion(String id, String vendor, String distribution, int majorVersion, String arch, String version, String installationType, String extension, String url, String type, String os, String bundle, Boolean fx, String checksumType, String checksum, String sigUrl, String timestamp) {
         this.id = id;
         this.vendor = vendor;
         this.distribution = distribution;
@@ -44,6 +51,9 @@ public class JavaVersion {
         this.os = os;
         this.bundle = bundle;
         this.fx = fx;
+        this.checksumType = checksumType;
+        this.checksum = checksum;
+        this.sigUrl = sigUrl;
         this.timestamp = timestamp;
     }
 
@@ -83,14 +93,6 @@ public class JavaVersion {
         return bundle;
     }
 
-    public Boolean getFx() {
-        return fx;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
     public String getInstallationType() {
         return installationType;
     }
@@ -101,5 +103,25 @@ public class JavaVersion {
 
     public String getUrl() {
         return url;
+    }
+
+    public String getChecksumType() {
+        return checksumType;
+    }
+
+    public String getChecksum() {
+        return checksum;
+    }
+
+    public String getSigUrl() {
+        return sigUrl;
+    }
+
+    public Boolean getFx() {
+        return fx;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
     }
 }

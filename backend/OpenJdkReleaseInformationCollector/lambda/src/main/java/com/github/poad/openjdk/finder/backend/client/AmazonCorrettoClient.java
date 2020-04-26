@@ -26,6 +26,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "linux",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-11-x64-linux-jdk.deb",
+                                null,
                                 null)
                 ),
                 Map.entry(
@@ -44,6 +47,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "linux",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-8-x64-linux-jdk.deb",
+                                null,
                                 null)
                 ),
                 Map.entry(
@@ -62,6 +68,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "linux",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-11-x64-linux-jdk.rpm",
+                                null,
                                 null)
                 ),
                 Map.entry(
@@ -80,6 +89,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "linux",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-8-x64-linux-jdk.rpm",
+                                null,
                                 null)
                 ),
                 Map.entry(
@@ -98,6 +110,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "linux",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-11-x64-linux-jdk.tar.gz",
+                                "https://corretto.aws/downloads/latest/amazon-corretto-11-x64-linux-jdk.tar.gz.sig",
                                 null)
                 ),
                 Map.entry(
@@ -116,6 +131,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "linux",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-8-aarch64-linux-jdk.tar.gz",
+                                "https://corretto.aws/downloads/latest/amazon-corretto-8-aarch64-linux-jdk.tar.gz.sig",
                                 null)
                 ),
                 Map.entry(
@@ -134,6 +152,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "linux",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-11-aarch64-linux-jdk.deb",
+                                null,
                                 null)
                 ),
                 Map.entry(
@@ -152,6 +173,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "linux",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-8-aarch64-linux-jdk.deb",
+                                null,
                                 null)
                 ),
                 Map.entry(
@@ -170,6 +194,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "linux",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-11-aarch64-linux-jdk.rpm",
+                                null,
                                 null)
                 ),
                 Map.entry(
@@ -188,6 +215,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "linux",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-8-aarch64-linux-jdk.rpm",
+                                null,
                                 null)
                 ),
                 Map.entry(
@@ -206,6 +236,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "linux",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-11-aarch64-linux-jdk.tar.gz",
+                                "https://corretto.aws/downloads/latest/amazon-corretto-11-aarch64-linux-jdk.tar.gz.sig",
                                 null)
                 ),
                 Map.entry(
@@ -224,6 +257,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "linux",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-8-aarch64-linux-jdk.tar.gz",
+                                "https://corretto.aws/downloads/latest/amazon-corretto-8-aarch64-linux-jdk.tar.gz.sig",
                                 null)
                 ),
                 Map.entry(
@@ -242,6 +278,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "windows",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-11-x64-windows-jdk.msi",
+                                null,
                                 null)
                 ),
                 Map.entry(
@@ -260,6 +299,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "windows",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-8-x64-windows-jdk.msi",
+                                null,
                                 null)
                 ),
                 Map.entry(
@@ -278,6 +320,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "windows",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-11-x64-windows-jdk.zip",
+                                "https://corretto.aws/downloads/latest/amazon-corretto-11-x64-windows-jdk.zip.pub",
                                 null)
                 ),
                 Map.entry(
@@ -296,6 +341,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "windows",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-8-x64-windows-jdk.zip",
+                                "https://corretto.aws/downloads/latest/amazon-corretto-8-x64-windows-jdk.zip.pub",
                                 null)
                 ),
                 Map.entry(
@@ -314,6 +362,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "windows",
                                 "jre",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-8-x64-windows-jre.zip",
+                                "https://corretto.aws/downloads/latest/amazon-corretto-8-x64-windows-jre.zip.sig",
                                 null)
                 ),
                 Map.entry(
@@ -332,6 +383,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "windows",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-11-x86-windows-jdk.msi",
+                                null,
                                 null)
                 ),
                 Map.entry(
@@ -350,6 +404,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "windows",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-8-x86-windows-jdk.msi",
+                                null,
                                 null)
                 ),
                 Map.entry(
@@ -368,6 +425,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "windows",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-8-x86-windows-jdk.zip",
+                                "https://corretto.aws/downloads/latest/amazon-corretto-8-x86-windows-jdk.zip.sig",
                                 null)
                 ),
                 Map.entry(
@@ -386,6 +446,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "windows",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-8-x86-windows-jdk.zip",
+                                "https://corretto.aws/downloads/latest/amazon-corretto-8-x86-windows-jdk.zip.sig",
                                 null)
                 ),
                 Map.entry(
@@ -404,6 +467,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "windows",
                                 "jre",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-8-x86-windows-jre.zip",
+                                "https://corretto.aws/downloads/latest/amazon-corretto-8-x86-windows-jre.zip.sig",
                                 null)
                 ),
                 Map.entry(
@@ -422,6 +488,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "macos",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-11-x64-macos-jdk.pkg",
+                                null,
                                 null)
                 ),
                 Map.entry(
@@ -440,6 +509,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "macos",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-8-x64-macos-jdk.pkg",
+                                null,
                                 null)
                 ),
                 Map.entry(
@@ -458,6 +530,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "macos",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-11-x64-macos-jdk.tar.gz",
+                                "https://corretto.aws/downloads/latest/amazon-corretto-11-x64-macos-jdk.tar.gz.sig",
                                 null)
                 ),
                 Map.entry(
@@ -476,6 +551,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "macos",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-8-x64-macos-jdk.tar.gz",
+                                "https://corretto.aws/downloads/latest/amazon-corretto-8-x64-macos-jdk.tar.gz.sig",
                                 null)
                 ),
                 Map.entry(
@@ -494,6 +572,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "linux-al2",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-11-x64-al2-jdk.rpm",
+                                null,
                                 null)
                 ),
                 Map.entry(
@@ -512,6 +593,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "linux-al2",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-8-x64-al2-jdk.rpm",
+                                null,
                                 null)
                 ),
                 Map.entry(
@@ -530,6 +614,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "linux-al2",
                                 "jre",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-11-x64-al2-jre.rpm",
+                                null,
                                 null)
                 ),
                 Map.entry(
@@ -548,6 +635,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "linux-al2",
                                 "jre",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-8-x64-al2-jre.rpm",
+                                null,
                                 null)
                 ),
                 Map.entry(
@@ -566,6 +656,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "linux-al2",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-11-aarch64-al2-jdk.rpm",
+                                null,
                                 null)
                 ),
                 Map.entry(
@@ -584,6 +677,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "linux-al2",
                                 "jdk",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-8-aarch64-al2-jdk.rpm",
+                                null,
                                 null)
                 ),
                 Map.entry(
@@ -602,6 +698,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "linux-al2",
                                 "jre",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-11-aarch64-al2-jre.rpm",
+                                null,
                                 null)
                 ),
                 Map.entry(
@@ -620,6 +719,9 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "linux-al2",
                                 "jre",
                                 false,
+                                "md5",
+                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-8-aarch64-al2-jre.rpm",
+                                null,
                                 null)
                 )
         ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));

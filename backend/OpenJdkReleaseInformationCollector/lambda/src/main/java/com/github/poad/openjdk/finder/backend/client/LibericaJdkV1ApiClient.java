@@ -256,6 +256,9 @@ public class LibericaJdkV1ApiClient extends JsonHttpClient implements OpenJdkApi
                             release.os,
                             bundle,
                             release.fx,
+                            "sha1",
+                            release.sha1,
+                            null,
                             null
                     );
                 })
