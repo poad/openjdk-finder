@@ -425,6 +425,9 @@ public class ZuluCommunityV1ApiClient extends JsonHttpClient implements OpenJdkA
                                     entry.getValue().os,
                                     entry.getValue().bundleType,
                                     entry.getValue().features.contains("fx"),
+                                    "sha256",
+                                    entry.getValue().sha256Hash,
+                                    null,
                                     entry.getValue().lastModified
                             ));
                 }

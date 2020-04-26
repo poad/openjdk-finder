@@ -78,6 +78,7 @@ public class SapMachineGitHubApiClient extends JsonHttpClient implements OpenJdk
         }
     }
 
+    @SuppressWarnings("unused")
     static class Person {
         private final String login;
         private final Long id;
@@ -211,6 +212,7 @@ public class SapMachineGitHubApiClient extends JsonHttpClient implements OpenJdk
         }
     }
 
+    @SuppressWarnings("unused")
     static class Release {
         private final String url;
         private final String htmlUrl;
@@ -499,6 +501,12 @@ public class SapMachineGitHubApiClient extends JsonHttpClient implements OpenJdk
                                         var version = entry.getKey();
                                         var majorVersion = version.contains(".") ? version.substring(0, version.indexOf(".")) : version;
 
+                                        var ext = Stream.of(Ext.values())
+                                                .filter(e -> asset.name.endsWith(e.ext))
+                                                .findFirst()
+                                                .orElseThrow(RuntimeException::new).ext;
+                                        var hashUrl = asset.name.replace(ext, "sha256");
+
                                         var id = String.format("sapmachine-%s-%s", version, String.format(s.toString(), entry.getKey()));
                                         return Map.entry(id, new JavaVersion(
                                                 id,
@@ -514,6 +522,9 @@ public class SapMachineGitHubApiClient extends JsonHttpClient implements OpenJdk
                                                 s.os.name,
                                                 s.bundle.name,
                                                 false,
+                                                "sha256",
+                                                hashUrl,
+                                                null,
                                                 asset.updatedAt
                                         ));
                                     })

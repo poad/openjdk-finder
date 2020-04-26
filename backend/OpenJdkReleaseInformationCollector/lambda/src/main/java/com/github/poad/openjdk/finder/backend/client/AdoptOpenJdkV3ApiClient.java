@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.poad.openjdk.finder.backend.entity.JavaVersion;
 
+import javax.xml.stream.events.EndDocument;
 import java.net.http.HttpClient;
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.stream.Stream;
 public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkApiClient {
     private static class Endpoint {
         private static final String AVAILABLE_RELEASES = "https://api.adoptopenjdk.net/v3/info/available_releases";
+        private static final String FEATURE_RELEASE = "https://api.adoptopenjdk.net/v3/assets/feature_releases/%d/ga?architecture=x64&heap_size=normal&jvm_impl=hotspot&page=0&page_size=100&sort_order=DESC&vendor=%s";
         private static final String RELEASE_VERSIONS = "https://api.adoptopenjdk.net/v3/info/release_versions?page=0&page_size=1000&release_type=ga&sort_order=DESC&vendor=%s";
         private static final String VERSION = "https://api.adoptopenjdk.net/v3/assets/version/%s?heap_size=normal&page=0&page_size=100&project=jdk&release_type=ga&sort_order=DESC&vendor=%s";
     }
@@ -299,9 +301,11 @@ public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkAp
                 Arrays.stream(Vendor.values())
                         .map(Vendor::toString)
                         .flatMap(vendor -> {
+
                             var versions = request(client, String.format(Endpoint.RELEASE_VERSIONS, vendor), Versions.class)
                                     .versions
                                     .stream()
+                                    .filter(v -> Objects.isNull(v.pre))
                                     .map(v -> Map.entry(v.major, v))
                                     .collect(Collectors.groupingBy(Map.Entry::getKey))
                                     .values()
@@ -309,11 +313,10 @@ public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkAp
                                     .map(entries -> entries.get(0))
                                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
                             return versions.values().stream().flatMap(version ->
-                                    request(client, String.format(Endpoint.VERSION, version.semver, vendor), new TypeReference<List<Assets>>() {
-                                    })
+                                    request(client, String.format(Endpoint.VERSION, version.semver, vendor), new TypeReference<List<Assets>>() {})
                                             .stream()
                                             .flatMap(binaries -> binaries.binaries.stream())
-                                            .filter(binary -> !binary.imageType.equals("testimage"))
+                                            .filter(binary -> !binary.imageType.equals("testimage") && !binary.imageType.equals("debugimage"))
                                             .flatMap(binary -> {
                                                 String os = binary.os.equals("mac") ? "macos" : binary.os;
                                                 String architecture;
@@ -347,6 +350,9 @@ public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkAp
                                                         os,
                                                         binary.imageType,
                                                         false,
+                                                        "sha256",
+                                                        binary.pkg.checksum,
+                                                        binary.pkg.signatureLink,
                                                         binary.updatedAt);
                                                 if (Objects.nonNull(binary.installer)) {
                                                     var extension = binary.installer.name.substring(binary.installer.name.lastIndexOf(".") + 1);
@@ -371,6 +377,9 @@ public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkAp
                                                             os,
                                                             binary.imageType,
                                                             false,
+                                                            "sha256",
+                                                            binary.pkg.checksum,
+                                                            binary.pkg.signatureLink,
                                                             binary.updatedAt);
                                                     return Stream.of(archive, installer);
                                                 }

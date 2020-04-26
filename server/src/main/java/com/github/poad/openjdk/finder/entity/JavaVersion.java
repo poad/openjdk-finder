@@ -49,14 +49,23 @@ public class JavaVersion {
     private final String os;
 
     @Column
+    private final String checksumType;
+
+    @Column
+    private final String checksum;
+
+    @Column
+    private final String sigUrl;
+
+    @Column
     private final String timestamp;
 
     // for JPA
     public JavaVersion() {
-        this(null, null, null, -1, null, null,null, null, null, null, null, null, null, null);
+        this(null, null, null, -1, null, null,null, null, null, null, null, null, null, null, null, null, null);
     }
 
-    public JavaVersion(String id, String vendor, String distribution, int majorVersion, String arch, String version, String installationType, String extension, String url, String type, String bundle, Boolean fx, String os, String timestamp) {
+    public JavaVersion(String id, String vendor, String distribution, int majorVersion, String arch, String version, String installationType, String extension, String url, String type, String bundle, Boolean fx, String os, String checksumType, String checksum, String sigUrl, String timestamp) {
         this.id = id;
         this.vendor = vendor;
         this.distribution = distribution;
@@ -70,6 +79,9 @@ public class JavaVersion {
         this.bundle = bundle;
         this.fx = fx;
         this.os = os;
+        this.checksumType = checksumType;
+        this.checksum = checksum;
+        this.sigUrl = sigUrl;
         this.timestamp = timestamp;
     }
 
@@ -123,6 +135,18 @@ public class JavaVersion {
 
     public String getOs() {
         return os;
+    }
+
+    public String getChecksumType() {
+        return checksumType;
+    }
+
+    public String getChecksum() {
+        return checksum;
+    }
+
+    public String getSigUrl() {
+        return sigUrl;
     }
 
     public String getTimestamp() {

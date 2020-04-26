@@ -22,6 +22,7 @@ public class JavaVersionController {
         this.service = service;
     }
 
+    @SuppressWarnings("unused")
     private static class JavaVersionItem {
         private final String id;
 
@@ -49,14 +50,20 @@ public class JavaVersionController {
 
         private final String os;
 
+        private final String checksumType;
+
+        private final String checksum;
+
+        private final String sigUrl;
+
         private final String timestamp;
 
         // for Jackson
         public JavaVersionItem() {
-            this(null, null, null, -1, null, null, null, null, null, null, null, false, null, null);
+            this(null, null, null, -1, null, null, null, null, null, null, null, false, null, null, null, null, null);
         }
 
-        JavaVersionItem(String id, String vendor, String distribution, int majorVersion, String arch, String version, String installationType, String extension, String url, String type, String bundle, boolean fx, String os, String timestamp) {
+        JavaVersionItem(String id, String vendor, String distribution, int majorVersion, String arch, String version, String installationType, String extension, String url, String type, String bundle, boolean fx, String os, String checksumType, String checksum, String sigUrl, String timestamp) {
             this.id = id;
             this.vendor = vendor;
             this.distribution = distribution;
@@ -70,6 +77,9 @@ public class JavaVersionController {
             this.bundle = bundle;
             this.fx = fx;
             this.os = os;
+            this.checksumType = checksumType;
+            this.checksum = checksum;
+            this.sigUrl = sigUrl;
             this.timestamp = timestamp;
         }
 
@@ -96,7 +106,6 @@ public class JavaVersionController {
         public String getVersion() {
             return version;
         }
-
 
         public String getType() {
             return type;
@@ -129,7 +138,19 @@ public class JavaVersionController {
         public String getExtension() {
             return extension;
         }
-    }
+
+        public String getChecksumType() {
+            return checksumType;
+        }
+
+        public String getChecksum() {
+            return this.checksum;
+        }
+
+        public String getSigUrl() {
+            return this.sigUrl;
+        }
+}
 
     @GetMapping(path = "/", produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<JavaVersionItem> list(
@@ -145,7 +166,23 @@ public class JavaVersionController {
         return service.list(majorVersion, arch, vendor, distribution, installationType, type, bundle, os, fx)
                 .stream()
                 .map(item -> new JavaVersionItem(
-                        item.getId(), item.getVendor(), item.getDistribution(), item.getMajorVersion(), item.getArch(), item.getVersion(), item.getInstallationType(), item.getExtension(), item.getUrl(), item.getType(), item.getBundle(), item.getFx(), item.getOs(), item.getTimestamp()
+                        item.getId(),
+                        item.getVendor(),
+                        item.getDistribution(),
+                        item.getMajorVersion(),
+                        item.getArch(),
+                        item.getVersion(),
+                        item.getInstallationType(),
+                        item.getExtension(),
+                        item.getUrl(),
+                        item.getType(),
+                        item.getBundle(),
+                        item.getFx(),
+                        item.getOs(),
+                        item.getChecksumType(),
+                        item.getChecksum(),
+                        item.getSigUrl(),
+                        item.getTimestamp()
                 ))
                 .collect(Collectors.toList());
     }
