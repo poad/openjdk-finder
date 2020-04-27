@@ -42,7 +42,8 @@ export interface State {
   fx: boolean | undefined,
   condition: Filter,
   loaded: boolean,
-  error: boolean
+  error: boolean,
+  errorMessage?: string | undefined
 }
 
 interface ListAction {

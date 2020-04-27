@@ -3,9 +3,7 @@ export interface Config {
 }
 
 const config: Config = {
-  endpoint: process.env.NODE_ENV == 'development'
-    ? 'http://localhost:8089/'
-    : 'https://openjdk-finder.herokuapp.com/'
+  endpoint: 'https://openjdk-finder.herokuapp.com/'
 }
 
 export default config

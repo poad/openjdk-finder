@@ -21,7 +21,7 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
+    layoutRoot: {
       display: 'flex',
       color: '#fff',
     },
@@ -97,7 +97,7 @@ export const Layout: React.FC<LayoutProps> = (props) => {
   );
 
   return (
-    <div className={classes.root}>
+    <div className={classes.layoutRoot}>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
