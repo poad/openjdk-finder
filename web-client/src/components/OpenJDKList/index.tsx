@@ -20,9 +20,11 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Backdrop from '@material-ui/core/Backdrop';
+import Loader from 'react-loader';
 import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
 
 interface Props {
   items: Array<OpenJDK>,
@@ -36,6 +38,26 @@ const StyledTableCell = withStyles((theme: Theme) => createStyles({
   }
 })
 )(TableCell);
+
+const StyledSpinner = withStyles((_: Theme) => createStyles({
+  root: {
+    position: 'absolute',
+    width: '40%',
+    height: '40%',
+    top: '50%',
+    left: '50%',
+    border: '1px solid #000'
+  }
+})
+)(Loader);
+
+const LoadingBackdrop = withStyles((theme: Theme) => createStyles({
+  root: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  }
+})
+)(Backdrop);
 
 class OpenJDKList extends React.Component<Props, State> {
   props: Props
@@ -71,6 +93,7 @@ class OpenJDKList extends React.Component<Props, State> {
       },
       loaded: false,
       error: false,
+      errorMessage: undefined,
     };
     this.client = new RestClient();
   }
@@ -88,14 +111,12 @@ class OpenJDKList extends React.Component<Props, State> {
   }
 
   fetchList = (): void => {
-    try {
-      this.client.fetchList().then((items) =>
-        this.filtering(items)
-      )
+    this.client.fetchList().then((items) => {
+      this.filtering(items);
       this.closeLoading();
-    } catch (e) {
-      this.openErrorDialog();
-    }
+    }).catch((e) => {
+      this.openErrorDialog(e.toString());
+    })
   }
 
   openLoading = (): void => {
@@ -112,7 +133,8 @@ class OpenJDKList extends React.Component<Props, State> {
       fx: this.state.fx,
       condition: this.state.condition,
       loaded: false,
-      error: false
+      error: false,
+      errorMessage: undefined,
     })
   }
 
@@ -130,11 +152,12 @@ class OpenJDKList extends React.Component<Props, State> {
       fx: this.state.fx,
       condition: this.state.condition,
       loaded: true,
-      error: false
+      error: false,
+      errorMessage: this.state.errorMessage,
     })
   }
 
-  openErrorDialog = (): void => {
+  openErrorDialog = (msg: string): void => {
     this.setState({
       items: this.state.items,
       displayItems: this.state.displayItems,
@@ -148,7 +171,8 @@ class OpenJDKList extends React.Component<Props, State> {
       fx: this.state.fx,
       condition: this.state.condition,
       loaded: false,
-      error: true
+      error: true,
+      errorMessage: msg,
     })
   }
 
@@ -279,6 +303,7 @@ class OpenJDKList extends React.Component<Props, State> {
       condition: filter ? filter : this.state.condition,
       loaded: this.state.loaded,
       error: this.state.error,
+      errorMessage: this.state.errorMessage,
     })
   }
 
@@ -310,7 +335,9 @@ class OpenJDKList extends React.Component<Props, State> {
         bundles: this.state.bundles,
         os: this.state.os,
         fx: this.state.fx,
-        condition: this.state.condition
+        condition: this.state.condition,
+        loaded: this.state.loaded,
+        error: this.state.error,
       });
     };
 
@@ -328,7 +355,9 @@ class OpenJDKList extends React.Component<Props, State> {
         bundles: this.state.bundles,
         os: this.state.os,
         fx: this.state.fx,
-        condition: this.state.condition
+        condition: this.state.condition,
+        loaded: this.state.loaded,
+        error: this.state.error,
       });
     };
 
@@ -342,7 +371,7 @@ class OpenJDKList extends React.Component<Props, State> {
 
     const onChangeState = (condition: Filter) => {
       this.filtering(this.state.items, condition)
-    }
+    };
 
     const onVendorChange = (event: React.ChangeEvent<{ value: unknown }>) => {
       onChangeState({
@@ -365,8 +394,7 @@ class OpenJDKList extends React.Component<Props, State> {
         bundle: this.state.condition.bundle,
         os: this.state.condition.os,
         fx: this.state.condition.fx
-      }
-      );
+      });
     };
 
     const onArchitectureChange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -378,8 +406,7 @@ class OpenJDKList extends React.Component<Props, State> {
         bundle: this.state.condition.bundle,
         os: this.state.condition.os,
         fx: this.state.condition.fx
-      }
-      );
+      });
     };
 
     const onTypeChange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -391,8 +418,7 @@ class OpenJDKList extends React.Component<Props, State> {
         bundle: this.state.condition.bundle,
         os: this.state.condition.os,
         fx: this.state.condition.fx
-      }
-      );
+      });
     };
 
     const onBundleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -404,8 +430,7 @@ class OpenJDKList extends React.Component<Props, State> {
         bundle: event.target.value ? event.target.value as string : undefined,
         os: this.state.condition.os,
         fx: this.state.condition.fx
-      }
-      );
+      });
     };
 
     const onOsChange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -417,8 +442,7 @@ class OpenJDKList extends React.Component<Props, State> {
         bundle: this.state.condition.bundle,
         os: event.target.value ? event.target.value as string : undefined,
         fx: this.state.condition.fx
-      }
-      );
+      });
     };
 
     const onFxChange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -430,16 +454,21 @@ class OpenJDKList extends React.Component<Props, State> {
         bundle: this.state.condition.bundle,
         os: this.state.condition.os,
         fx: event.target.value ? event.target.value as boolean : undefined,
-      }
-      );
+      });
     };
 
     return (
       <React.Fragment>
-        <Backdrop open={!this.state.loaded} invisible={this.state.loaded} transitionDuration={60 * 1000}>
-          <CircularProgress color="inherit" disableShrink />
-        </Backdrop>
-        <Dialog open={this.state.error}>error!</Dialog>
+        <LoadingBackdrop open={!this.state.loaded && !this.state.error} invisible={this.state.loaded || this.state.error}>
+          <StyledSpinner loaded={this.state.loaded || this.state.error} />
+        </LoadingBackdrop>
+        <Dialog open={this.state.error}>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {this.state.errorMessage ? this.state.errorMessage : ""}
+            </DialogContentText>
+          </DialogContent>
+        </Dialog>
         <Container fixed>
           <FormControl fullWidth>
             <Paper variant="outlined">
