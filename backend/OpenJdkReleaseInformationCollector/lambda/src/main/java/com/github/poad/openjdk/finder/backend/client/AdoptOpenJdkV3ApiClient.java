@@ -5,21 +5,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.poad.openjdk.finder.backend.entity.JavaVersion;
 
-import javax.xml.stream.events.EndDocument;
 import java.net.http.HttpClient;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkApiClient {
     private static class Endpoint {
         private static final String AVAILABLE_RELEASES = "https://api.adoptopenjdk.net/v3/info/available_releases";
-        private static final String FEATURE_RELEASE = "https://api.adoptopenjdk.net/v3/assets/feature_releases/%d/ga?architecture=x64&heap_size=normal&jvm_impl=hotspot&page=0&page_size=100&sort_order=DESC&vendor=%s";
-        private static final String RELEASE_VERSIONS = "https://api.adoptopenjdk.net/v3/info/release_versions?page=0&page_size=1000&release_type=ga&sort_order=DESC&vendor=%s";
-        private static final String VERSION = "https://api.adoptopenjdk.net/v3/assets/version/%s?heap_size=normal&page=0&page_size=100&project=jdk&release_type=ga&sort_order=DESC&vendor=%s";
+        private static final String FEATURE_RELEASE = "https://api.adoptopenjdk.net/v3/assets/feature_releases/%d/ga?heap_size=normal&page=0&page_size=100&sort_order=DESC&vendor=%s";
     }
 
     public static class AvailableRelease {
@@ -294,104 +291,152 @@ public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkAp
         }
     }
 
+    private static class Params {
+        private final int majorVersion;
+        private final String vendor;
+
+        private Params(int majorVersion, String vendor) {
+            this.majorVersion = majorVersion;
+            this.vendor = vendor;
+        }
+    }
+
+    private static class Key implements Comparable<Key> {
+        private final String os;
+        private final ReleaseVersion version;
+        private final String vendor;
+        private final String releaseName;
+
+        private Key(ReleaseVersion version, String os, String vendor, String releaseName) {
+            this.os = os;
+            this.version = version;
+            this.vendor = vendor;
+            this.releaseName = releaseName;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("%s-%s-%s-%s", version.semver, os, vendor, releaseName);
+        }
+
+        @Override
+        public int compareTo(Key o) {
+            return 0;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Key key = (Key) o;
+            return os.equals(key.os) &&
+                    version.equals(key.version) &&
+                    vendor.equals(key.vendor) &&
+                    releaseName.equals(key.releaseName);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(os, version, vendor, releaseName);
+        }
+    }
+
     public Map<String, JavaVersion> getVersions() {
         var client = HttpClient.newHttpClient();
         var releases = request(client, Endpoint.AVAILABLE_RELEASES, AvailableRelease.class);
-        return releases.availableReleases.stream().flatMap(majorVersion ->
-                Arrays.stream(Vendor.values())
-                        .map(Vendor::toString)
-                        .flatMap(vendor -> {
-
-                            var versions = request(client, String.format(Endpoint.RELEASE_VERSIONS, vendor), Versions.class)
-                                    .versions
-                                    .stream()
-                                    .filter(v -> Objects.isNull(v.pre))
-                                    .map(v -> Map.entry(v.major, v))
-                                    .collect(Collectors.groupingBy(Map.Entry::getKey))
-                                    .values()
-                                    .stream()
-                                    .map(entries -> entries.get(0))
-                                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-                            return versions.values().stream().flatMap(version ->
-                                    request(client, String.format(Endpoint.VERSION, version.semver, vendor), new TypeReference<List<Assets>>() {})
-                                            .stream()
-                                            .flatMap(binaries -> binaries.binaries.stream())
-                                            .filter(binary -> !binary.imageType.equals("testimage") && !binary.imageType.equals("debugimage"))
-                                            .flatMap(binary -> {
-                                                String os = binary.os.equals("mac") ? "macos" : binary.os;
-                                                String architecture;
-                                                switch (binary.architecture) {
-                                                    case "x32":
-                                                        architecture = "x86";
-                                                        break;
-                                                    case "arm":
-                                                        architecture = "arm32";
-                                                        break;
-                                                    default:
-                                                        architecture = binary.architecture;
-                                                }
-                                                var archive = new JavaVersion(
-                                                        String.format("%s-%d-%s-%s-%s-%s",
-                                                                vendor,
-                                                                version.major,
-                                                                binary.jvmImpl,
-                                                                binary.imageType,
-                                                                architecture,
-                                                                os),
-                                                        vendor,
-                                                        "adoptopenjdk",
-                                                        version.major,
-                                                        architecture,
-                                                        version.semver,
-                                                        "archive",
-                                                        null,
-                                                        binary.pkg.link,
-                                                        binary.jvmImpl,
-                                                        os,
-                                                        binary.imageType,
-                                                        false,
-                                                        "sha256",
-                                                        binary.pkg.checksum,
-                                                        binary.pkg.signatureLink,
-                                                        binary.updatedAt);
-                                                if (Objects.nonNull(binary.installer)) {
-                                                    var extension = binary.installer.name.substring(binary.installer.name.lastIndexOf(".") + 1);
-                                                    var installer = new JavaVersion(
-                                                            String.format("%s-%d-%s-%s-%s-%s-%s",
-                                                                    vendor,
-                                                                    version.major,
-                                                                    binary.jvmImpl,
-                                                                    binary.imageType,
-                                                                    architecture,
-                                                                    extension,
-                                                                    os),
-                                                            vendor,
-                                                            "adoptopenjdk",
-                                                            version.major,
-                                                            architecture,
-                                                            version.semver,
-                                                            "installer",
-                                                            extension,
-                                                            binary.installer.link,
-                                                            binary.jvmImpl,
-                                                            os,
-                                                            binary.imageType,
-                                                            false,
-                                                            "sha256",
-                                                            binary.pkg.checksum,
-                                                            binary.pkg.signatureLink,
-                                                            binary.updatedAt);
-                                                    return Stream.of(archive, installer);
-                                                }
-                                                return Stream.of(archive);
-                                            })
-                            );
-                        })
-        ).collect(Collectors.groupingBy(JavaVersion::getId))
-                .values()
+        var majorVersions = releases.availableReleases;
+        var params = majorVersions
                 .stream()
-                .map(entries -> entries.get(0))
-                .collect(Collectors.toMap(JavaVersion::getId, javaVersion -> javaVersion));
+                .flatMap(majorVersion -> Stream.of(Vendor.values())
+                        .map(vendor -> new Params(majorVersion, vendor.vendor)))
+                .collect(Collectors.toList());
+        return params
+                .stream()
+                .flatMap(param ->
+                    binaries(client, param.majorVersion, param.vendor, binary -> !binary.imageType.equals("testimage") && !binary.imageType.equals("debugimage"))
+                            .flatMap(entry -> {
+                                var binary = entry.getValue();
+                                var version = entry.getKey();
+                                var releaseVersion = version.releaseName.replace("jdk-", "");
+                                var os = binary.os.equals("mac") ? "macos" : binary.os;
+                                String architecture;
+                                switch (binary.architecture) {
+                                    case "x32":
+                                        architecture = "x86";
+                                        break;
+                                    case "arm":
+                                        architecture = "arm32";
+                                        break;
+                                    default:
+                                        architecture = binary.architecture;
+                                }
+                                var archive = createEntity(version.vendor, version.version, releaseVersion, binary, architecture, os, "archive", null);
+                                if (Objects.nonNull(binary.installer)) {
+                                    var extension = binary.installer.name.substring(binary.installer.name.lastIndexOf(".") + 1);
+                                    var installer = createEntity(version.vendor, version.version, releaseVersion, binary, architecture, os, "installer", extension);
+
+                                    return Stream.of(archive, installer);
+                                }
+                                return Stream.of(archive);
+                            })
+                            .collect(Collectors.groupingBy(JavaVersion::getId))
+                            .entrySet()
+                            .stream()
+                            .map(entries -> Map.entry(entries.getKey(), entries.getValue().get(0)))
+                )
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
+    private Stream<Map.Entry<Key, Binary>> binaries(HttpClient client, int majorVersion, String vendor, Predicate<Binary> predicate) {
+        var url = String.format(Endpoint.FEATURE_RELEASE, majorVersion, vendor);
+        try {
+            return request(client, url, new TypeReference<List<Assets>>() {
+            })
+                    .stream()
+                    .flatMap(asset ->
+                            asset.binaries
+                                    .stream()
+                                    .filter(predicate)
+                                    .map(binary -> Map.entry(new Key(asset.versionData, binary.os, asset.vendor, asset.releaseName), binary))
+                    );
+        } catch (RuntimeException e) {
+//            throw new RuntimeException(url, e);
+            return Stream.empty();
+        }
+    }
+
+    private JavaVersion createEntity(
+            String vendor,
+            ReleaseVersion version,
+            String releaseVersion,
+            Binary binary,
+            String architecture,
+            String os,
+            String installerType,
+            String extension) {
+        return new JavaVersion(
+                String.format("%s-%d-%s-%s-%s-%s",
+                        vendor,
+                        version.major,
+                        binary.jvmImpl,
+                        binary.imageType,
+                        architecture,
+                        os),
+                vendor,
+                "adoptopenjdk",
+                version.major,
+                architecture,
+                releaseVersion,
+                installerType,
+                extension,
+                binary.pkg.link,
+                binary.jvmImpl,
+                os,
+                binary.imageType,
+                false,
+                "sha256",
+                binary.pkg.checksum,
+                binary.pkg.signatureLink,
+                binary.updatedAt);
+    }
 }
