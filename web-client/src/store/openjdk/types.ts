@@ -1,4 +1,6 @@
 export const LIST = 'LIST'
+export type Order = 'asc' | 'desc';
+export type TableHeadLabel = 'vendor' | 'version' | 'arch' | 'installationType' | 'type' | 'bundle' | 'os' | 'url';
 
 export interface OpenJDK {
   id: string
@@ -40,6 +42,8 @@ export interface State {
   bundles: Array<string>,
   os: Array<string>,
   fx: boolean | undefined,
+  order: Order,
+  orderBy: TableHeadLabel,
   condition: Filter,
   loaded: boolean,
   error: boolean,

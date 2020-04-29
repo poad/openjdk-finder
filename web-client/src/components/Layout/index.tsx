@@ -9,7 +9,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import DashboardIcon from '@material-ui/icons/Dashboard';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -80,12 +79,6 @@ export const Layout: React.FC<LayoutProps> = (props) => {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        {['Info'].map((text) => (
-          <ListItem button key={text} className={classes.menuItem}>
-            <ListItemIcon className={classes.menuItem}><DashboardIcon /></ListItemIcon>
-            <ListItemText className={classes.menuItem}>{text}</ListItemText>
-          </ListItem>
-        ))}
         <Link href="https://github.com/poad/openjdk-finder">
           <ListItem button key={'GitHub'} className={classes.menuItem}>
             <ListItemIcon className={classes.menuItem}><GitHubIcon /></ListItemIcon>
