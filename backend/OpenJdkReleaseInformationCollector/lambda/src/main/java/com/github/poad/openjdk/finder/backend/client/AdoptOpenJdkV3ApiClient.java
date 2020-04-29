@@ -370,10 +370,10 @@ public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkAp
                                     default:
                                         architecture = binary.architecture;
                                 }
-                                var archive = createEntity(version.vendor, version.version, releaseVersion, binary, architecture, os, "archive", null);
+                                var archive = createEntity(version.vendor, version.version, releaseVersion, binary, architecture, os, InstallerType.ARCHIVE, null);
                                 if (Objects.nonNull(binary.installer)) {
                                     var extension = binary.installer.name.substring(binary.installer.name.lastIndexOf(".") + 1);
-                                    var installer = createEntity(version.vendor, version.version, releaseVersion, binary, architecture, os, "installer", extension);
+                                    var installer = createEntity(version.vendor, version.version, releaseVersion, binary, architecture, os, InstallerType.INSTALLER, extension);
 
                                     return Stream.of(archive, installer);
                                 }
@@ -412,22 +412,35 @@ public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkAp
             Binary binary,
             String architecture,
             String os,
-            String installerType,
+            InstallerType installerType,
             String extension) {
-        return new JavaVersion(
+        var id = installerType.equals(InstallerType.INSTALLER) ?
+                String.format("%s-%d-%s-%s-%s-%s-%s",
+                        vendor,
+                        version.major,
+                        binary.jvmImpl,
+                        binary.imageType,
+                        architecture,
+                        extension,
+                        os)
+                :
                 String.format("%s-%d-%s-%s-%s-%s",
                         vendor,
                         version.major,
                         binary.jvmImpl,
                         binary.imageType,
                         architecture,
-                        os),
+                        os);
+
+
+        return new JavaVersion(
+                id,
                 vendor,
                 "adoptopenjdk",
                 version.major,
                 architecture,
                 releaseVersion,
-                installerType,
+                installerType.toString(),
                 extension,
                 binary.pkg.link,
                 binary.jvmImpl,
