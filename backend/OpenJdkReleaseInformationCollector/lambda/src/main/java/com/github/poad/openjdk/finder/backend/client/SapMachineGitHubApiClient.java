@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.poad.openjdk.finder.backend.entity.JavaVersion;
+import lombok.Getter;
+import lombok.Value;
 
 import java.net.http.HttpClient;
 import java.util.List;
@@ -19,14 +21,12 @@ public class SapMachineGitHubApiClient extends JsonHttpClient implements OpenJdk
 
     @SuppressWarnings("unused")
     private enum Arch {
-        PPC("ppc", "ppc64"),
-        X86("x86", "x64");
+        PPC("ppc64"),
+        X86("x64");
 
-        private final String name;
         private final String pkgName;
 
-        Arch(String name, String pkgName) {
-            this.name = name;
+        Arch(String pkgName) {
             this.pkgName = pkgName;
         }
     }
@@ -78,26 +78,27 @@ public class SapMachineGitHubApiClient extends JsonHttpClient implements OpenJdk
         }
     }
 
-    @SuppressWarnings("unused")
+    @Value
+    @Getter
     static class Person {
-        private final String login;
-        private final Long id;
-        private final String nodeId;
-        private final String avatarUrl;
-        private final String gravatarId;
-        private final String url;
-        private final String htmlUrl;
-        private final String followersUrl;
-        private final String followingUrl;
-        private final String gistsUrl;
-        private final String starredUrl;
-        private final String subscriptionsUrl;
-        private final String organizationsUrl;
-        private final String reposUrl;
-        private final String eventsUrl;
-        private final String receivedEventsUrl;
-        private final String type;
-        private final Boolean siteAdmin;
+        String login;
+        Long id;
+        String nodeId;
+        String avatarUrl;
+        String gravatarId;
+        String url;
+        String htmlUrl;
+        String followersUrl;
+        String followingUrl;
+        String gistsUrl;
+        String starredUrl;
+        String subscriptionsUrl;
+        String organizationsUrl;
+        String reposUrl;
+        String eventsUrl;
+        String receivedEventsUrl;
+        String type;
+        Boolean siteAdmin;
 
         @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
         Person(
@@ -138,100 +139,29 @@ public class SapMachineGitHubApiClient extends JsonHttpClient implements OpenJdk
             this.type = type;
             this.siteAdmin = siteAdmin;
         }
-
-        public String getLogin() {
-            return login;
-        }
-
-        public Long getId() {
-            return id;
-        }
-
-        public String getNodeId() {
-            return nodeId;
-        }
-
-        public String getAvatarUrl() {
-            return avatarUrl;
-        }
-
-        public String getGravatarId() {
-            return gravatarId;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public String getHtmlUrl() {
-            return htmlUrl;
-        }
-
-        public String getFollowersUrl() {
-            return followersUrl;
-        }
-
-        public String getFollowingUrl() {
-            return followingUrl;
-        }
-
-        public String getGistsUrl() {
-            return gistsUrl;
-        }
-
-        public String getStarredUrl() {
-            return starredUrl;
-        }
-
-        public String getSubscriptionsUrl() {
-            return subscriptionsUrl;
-        }
-
-        public String getOrganizationsUrl() {
-            return organizationsUrl;
-        }
-
-        public String getReposUrl() {
-            return reposUrl;
-        }
-
-        public String getEventsUrl() {
-            return eventsUrl;
-        }
-
-        public String getReceivedEventsUrl() {
-            return receivedEventsUrl;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public Boolean getSiteAdmin() {
-            return siteAdmin;
-        }
     }
 
-    @SuppressWarnings("unused")
+    @Value
+    @Getter
     static class Release {
-        private final String url;
-        private final String htmlUrl;
-        private final String assetsUrl;
-        private final String uploadUrl;
-        private final String tarballUrl;
-        private final String zipballUrl;
-        private final Long id;
-        private final String nodeId;
-        private final String tagName;
-        private final String targetCommitish;
-        private final String name;
-        private final String body;
-        private final Boolean draft;
-        private final Boolean prerelease;
-        private final String createdAt;
-        private final String publishedAt;
-        private final Person author;
-        private final List<Asset> assets;
+        String url;
+        String htmlUrl;
+        String assetsUrl;
+        String uploadUrl;
+        String tarballUrl;
+        String zipballUrl;
+        Long id;
+        String nodeId;
+        String tagName;
+        String targetCommitish;
+        String name;
+        String body;
+        Boolean draft;
+        Boolean prerelease;
+        String createdAt;
+        String publishedAt;
+        Person author;
+        List<Asset> assets;
 
         @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
         Release(
@@ -273,92 +203,22 @@ public class SapMachineGitHubApiClient extends JsonHttpClient implements OpenJdk
             this.assets = assets;
         }
 
-        public String getUrl() {
-            return url;
-        }
-
-        public String getHtmlUrl() {
-            return htmlUrl;
-        }
-
-        public String getAssetsUrl() {
-            return assetsUrl;
-        }
-
-        public String getUploadUrl() {
-            return uploadUrl;
-        }
-
-        public String getTarballUrl() {
-            return tarballUrl;
-        }
-
-        public String getZipballUrl() {
-            return zipballUrl;
-        }
-
-        public Long getId() {
-            return id;
-        }
-
-        public String getNodeId() {
-            return nodeId;
-        }
-
-        public String getTagName() {
-            return tagName;
-        }
-
-        public String getTargetCommitish() {
-            return targetCommitish;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getBody() {
-            return body;
-        }
-
-        public Boolean getDraft() {
-            return draft;
-        }
-
-        public Boolean getPrerelease() {
-            return prerelease;
-        }
-
-        public String getCreatedAt() {
-            return createdAt;
-        }
-
-        public String getPublishedAt() {
-            return publishedAt;
-        }
-
-        public Person getAuthor() {
-            return author;
-        }
-
-        public List<Asset> getAssets() {
-            return assets;
-        }
-
+        @Value
+        @Getter
         static class Asset {
-            private final String url;
-            private final String browserDownloadUrl;
-            private final Long id;
-            private final String nodeId;
-            private final String name;
-            private final String label;
-            private final String state;
-            private final String contentType;
-            private final Long size;
-            private final Long downloadCount;
-            private final String createdAt;
-            private final String updatedAt;
-            private final Person uploader;
+            String url;
+            String browserDownloadUrl;
+            Long id;
+            String nodeId;
+            String name;
+            String label;
+            String state;
+            String contentType;
+            Long size;
+            Long downloadCount;
+            String createdAt;
+            String updatedAt;
+            Person uploader;
 
             @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
             Asset(
@@ -389,66 +249,16 @@ public class SapMachineGitHubApiClient extends JsonHttpClient implements OpenJdk
                 this.updatedAt = updatedAt;
                 this.uploader = uploader;
             }
-
-            public String getUrl() {
-                return url;
-            }
-
-            public String getBrowserDownloadUrl() {
-                return browserDownloadUrl;
-            }
-
-            public Long getId() {
-                return id;
-            }
-
-            public String getNodeId() {
-                return nodeId;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public String getLabel() {
-                return label;
-            }
-
-            public String getState() {
-                return state;
-            }
-
-            public String getContentType() {
-                return contentType;
-            }
-
-            public Long getSize() {
-                return size;
-            }
-
-            public Long getDownloadCount() {
-                return downloadCount;
-            }
-
-            public String getCreatedAt() {
-                return createdAt;
-            }
-
-            public String getUpdatedAt() {
-                return updatedAt;
-            }
-
-            public Person getUploader() {
-                return uploader;
-            }
         }
     }
 
+    @Value
+    @Getter
     private static class Key {
-        private final Bundle bundle;
-        private final Arch arch;
-        private final OS os;
-        private final Ext packageType;
+        Bundle bundle;
+        Arch arch;
+        OS os;
+        Ext packageType;
 
 
         private Key(Bundle bundle, Arch arch, OS os, Ext packageType) {

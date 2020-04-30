@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.poad.openjdk.finder.backend.entity.JavaVersion;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Value;
 
 import java.net.http.HttpClient;
 import java.util.List;
@@ -19,14 +22,13 @@ public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkAp
         private static final String FEATURE_RELEASE = "https://api.adoptopenjdk.net/v3/assets/feature_releases/%d/ga?heap_size=normal&page=0&page_size=100&sort_order=DESC&vendor=%s";
     }
 
+    @Value
+    @Getter
     public static class AvailableRelease {
-        @SuppressWarnings("unused")
-        private final List<Integer> availableLtsReleases;
-        private final List<Integer> availableReleases;
-        @SuppressWarnings("unused")
-        private final String mostRecentFeatureRelease;
-        @SuppressWarnings("unused")
-        private final String mostRecentLts;
+        List<Integer> availableLtsReleases;
+        List<Integer> availableReleases;
+        String mostRecentFeatureRelease;
+        String mostRecentLts;
 
         @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
         public AvailableRelease(
@@ -41,23 +43,18 @@ public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkAp
         }
     }
 
+    @Value
+    @Getter
     public static class ReleaseVersion {
-        @SuppressWarnings("unused")
-        private final Integer adoptBuildNumber;
-        @SuppressWarnings("unused")
-        private final Integer build;
-        private final Integer major;
-        @SuppressWarnings("unused")
-        private final Integer minor;
-        @SuppressWarnings("unused")
-        private final String openjdkVersion;
-        @SuppressWarnings("unused")
-        private final String optional;
-        @SuppressWarnings("unused")
-        private final String pre;
-        @SuppressWarnings("unused")
-        private final Integer security;
-        private final String semver;
+        Integer adoptBuildNumber;
+        Integer build;
+        Integer major;
+        Integer minor;
+        String openjdkVersion;
+        String optional;
+        String pre;
+        Integer security;
+        String semver;
 
         @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
         public ReleaseVersion(
@@ -82,8 +79,10 @@ public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkAp
         }
     }
 
+    @Value
+    @Getter
     public static class Versions {
-        private final List<ReleaseVersion> versions;
+        List<ReleaseVersion> versions;
 
         @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
         public Versions(@JsonProperty("versions") List<ReleaseVersion> versions) {
@@ -91,20 +90,16 @@ public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkAp
         }
     }
 
+    @Value
+    @Getter
     public static class Package {
-        @SuppressWarnings("unused")
-        private final String checksum;
-        @SuppressWarnings("unused")
-        private final String checksumLink;
-        @SuppressWarnings("unused")
-        private final Integer downloadCount;
-        private final String link;
-        @SuppressWarnings("unused")
-        private final String name;
-        @SuppressWarnings("unused")
-        private final String signatureLink;
-        @SuppressWarnings("unused")
-        private final Integer size;
+        String checksum;
+        String checksumLink;
+        Integer downloadCount;
+        String link;
+        String name;
+        String signatureLink;
+        Integer size;
 
         @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
         public Package(
@@ -125,21 +120,16 @@ public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkAp
         }
     }
 
+    @Value
+    @Getter
     public static class Installer {
-        @SuppressWarnings("unused")
-        private final String checksum;
-        @SuppressWarnings("unused")
-        private final String checksumLink;
-        @SuppressWarnings("unused")
-        private final Integer downloadCount;
-        @SuppressWarnings("unused")
-        private final String link;
-        @SuppressWarnings("unused")
-        private final String name;
-        @SuppressWarnings("unused")
-        private final String signatureLink;
-        @SuppressWarnings("unused")
-        private final Integer size;
+        String checksum;
+        String checksumLink;
+        Integer downloadCount;
+        String link;
+        String name;
+        String signatureLink;
+        Integer size;
 
         @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
         public Installer(
@@ -160,13 +150,12 @@ public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkAp
         }
     }
 
+    @Value
+    @Getter
     public static class Source {
-        @SuppressWarnings("unused")
-        private final String link;
-        @SuppressWarnings("unused")
-        private final String name;
-        @SuppressWarnings("unused")
-        private final Integer size;
+        String link;
+        String name;
+        Integer size;
 
         @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
         public Source(
@@ -179,24 +168,20 @@ public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkAp
         }
     }
 
+    @Value
+    @Getter
     public static class Binary {
-        private final String architecture;
-        @SuppressWarnings("unused")
-        private final Long downloadCount;
-        @SuppressWarnings("unused")
-        private final String heapSize;
-        private final String imageType;
-        @SuppressWarnings("unused")
-        private final Installer installer;
-        private final String jvmImpl;
-        private final String os;
-        private final Package pkg;
-        @SuppressWarnings("unused")
-        private final String project;
-        @SuppressWarnings("unused")
-        private final String scmRef;
-        @SuppressWarnings("unused")
-        private final String updatedAt;
+        String architecture;
+        Long downloadCount;
+        String heapSize;
+        String imageType;
+        Installer installer;
+        String jvmImpl;
+        String os;
+        Package pkg;
+        String project;
+        String scmRef;
+        String updatedAt;
 
         @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
         public Binary(
@@ -225,28 +210,20 @@ public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkAp
         }
     }
 
+    @Value
+    @Getter
     public static class Assets {
-        private final List<Binary> binaries;
-        @SuppressWarnings("unused")
-        private final Long downloadCount;
-        @SuppressWarnings("unused")
-        private final String id;
-        @SuppressWarnings("unused")
-        private final String releaseLink;
-        @SuppressWarnings("unused")
-        private final String releaseName;
-        @SuppressWarnings("unused")
-        private final String releaseType;
-        @SuppressWarnings("unused")
-        private final String timestamp;
-        @SuppressWarnings("unused")
-        private final String updatedAt;
-        @SuppressWarnings("unused")
-        private final String vendor;
-        @SuppressWarnings("unused")
-        private final Source source;
-        @SuppressWarnings("unused")
-        private final ReleaseVersion versionData;
+        List<Binary> binaries;
+        Long downloadCount;
+        String id;
+        String releaseLink;
+        String releaseName;
+        String releaseType;
+        String timestamp;
+        String updatedAt;
+        String vendor;
+        Source source;
+        ReleaseVersion versionData;
 
         @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
         public Assets(
@@ -279,7 +256,7 @@ public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkAp
         ADOPT_OPENJDK("adoptopenjdk"),
         OPENJDK("openjdk");
 
-        private final String vendor;
+        String vendor;
 
         Vendor(String vendor) {
             this.vendor = vendor;
@@ -291,9 +268,11 @@ public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkAp
         }
     }
 
+    @Value
+    @Getter
     private static class Params {
-        private final int majorVersion;
-        private final String vendor;
+        int majorVersion;
+        String vendor;
 
         private Params(int majorVersion, String vendor) {
             this.majorVersion = majorVersion;
@@ -301,11 +280,13 @@ public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkAp
         }
     }
 
+    @Value
+    @Getter
     private static class Key implements Comparable<Key> {
-        private final String os;
-        private final ReleaseVersion version;
-        private final String vendor;
-        private final String releaseName;
+        String os;
+        ReleaseVersion version;
+        String vendor;
+        String releaseName;
 
         private Key(ReleaseVersion version, String os, String vendor, String releaseName) {
             this.os = os;
@@ -320,24 +301,8 @@ public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkAp
         }
 
         @Override
-        public int compareTo(Key o) {
-            return 0;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Key key = (Key) o;
-            return os.equals(key.os) &&
-                    version.equals(key.version) &&
-                    vendor.equals(key.vendor) &&
-                    releaseName.equals(key.releaseName);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(os, version, vendor, releaseName);
+        public int compareTo(@NonNull Key o) {
+            return this.toString().compareTo(o.toString());
         }
     }
 
@@ -357,7 +322,7 @@ public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkAp
                             .flatMap(entry -> {
                                 var binary = entry.getValue();
                                 var version = entry.getKey();
-                                var releaseVersion = version.releaseName.replace("jdk-", "");
+                                var releaseVersion = version.releaseName.replace("jdk-", "").replace("jdk", "");
                                 var os = binary.os.equals("mac") ? "macos" : binary.os;
                                 String architecture;
                                 switch (binary.architecture) {
@@ -400,7 +365,6 @@ public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkAp
                                     .map(binary -> Map.entry(new Key(asset.versionData, binary.os, asset.vendor, asset.releaseName), binary))
                     );
         } catch (RuntimeException e) {
-//            throw new RuntimeException(url, e);
             return Stream.empty();
         }
     }

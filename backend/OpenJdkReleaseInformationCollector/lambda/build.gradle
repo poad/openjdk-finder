@@ -24,6 +24,8 @@ targetCompatibility = JavaVersion.VERSION_11
 
 
 dependencies {
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     // This dependency is used by the application.
     implementation "com.amazonaws:aws-lambda-java-core:${lambdaCoreVersion}"

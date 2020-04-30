@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.poad.openjdk.finder.backend.entity.JavaVersion;
+import lombok.Getter;
+import lombok.Value;
 
 import java.io.UncheckedIOException;
 import java.net.http.HttpClient;
@@ -24,7 +26,6 @@ public class ZuluCommunityV1ApiClient extends JsonHttpClient implements OpenJdkA
         LINUX("linux"),
         LINUX_MUSL("linux_musl"),
         MACOS("macos"),
-        //        QNX("qnx"),
         WINDOWS("windows"),
         SOLARIS("solaris");
 
@@ -159,13 +160,16 @@ public class ZuluCommunityV1ApiClient extends JsonHttpClient implements OpenJdkA
         }
     }
 
+    @Value
+    @Getter
     static class BundleDescription {
-        private final Integer id;
-        private final String name;
-        private final List<Integer> jdkVersion;
-        private final String url;
-        private final List<Integer> zuluVersion;
+        Integer id;
+        String name;
+        List<Integer> jdkVersion;
+        String url;
+        List<Integer> zuluVersion;
 
+        @SuppressWarnings("unused")
         @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
         BundleDescription(
                 @JsonProperty("id") Integer id,
@@ -179,51 +183,27 @@ public class ZuluCommunityV1ApiClient extends JsonHttpClient implements OpenJdkA
             this.url = url;
             this.zuluVersion = zuluVersion;
         }
-
-        @SuppressWarnings("unused")
-        public Integer getId() {
-            return id;
-        }
-
-        @SuppressWarnings("unused")
-        public String getName() {
-            return name;
-        }
-
-        @SuppressWarnings("unused")
-        public List<Integer> getJdkVersion() {
-            return jdkVersion;
-        }
-
-        @SuppressWarnings("unused")
-        public String getUrl() {
-            return url;
-        }
-
-        @SuppressWarnings("unused")
-        public List<Integer> getZuluVersion() {
-            return zuluVersion;
-        }
     }
 
-
+    @Value
+    @Getter
     static class BundleDescriptionDetail {
-        private final Integer id;
-        private final String arch;
-        private final String hwBitness;
-        private final String os;
-        private final String ext;
-        private final String bundleType;
-        private final String lastModified;
-        private final String url;
-        private final String name;
-        private final List<Integer> zuluVersion;
-        private final List<Integer> jdkVersion;
-        private final Long size;
-        private final String md5Hash;
-        private final String sha256Hash;
-        private final Integer releaseStatus;
-        private final List<String> features;
+        Integer id;
+        String arch;
+        String hwBitness;
+        String os;
+        String ext;
+        String bundleType;
+        String lastModified;
+        String url;
+        String name;
+        List<Integer> zuluVersion;
+        List<Integer> jdkVersion;
+        Long size;
+        String md5Hash;
+        String sha256Hash;
+        Integer releaseStatus;
+        List<String> features;
 
         @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
         BundleDescriptionDetail(
@@ -259,86 +239,6 @@ public class ZuluCommunityV1ApiClient extends JsonHttpClient implements OpenJdkA
             this.sha256Hash = sha256Hash;
             this.releaseStatus = releaseStatus;
             this.features = features;
-        }
-
-        @SuppressWarnings("unused")
-        public Integer getId() {
-            return id;
-        }
-
-        @SuppressWarnings("unused")
-        public String getArch() {
-            return arch;
-        }
-
-        @SuppressWarnings("unused")
-        public String getHwBitness() {
-            return hwBitness;
-        }
-
-        @SuppressWarnings("unused")
-        public String getOs() {
-            return os;
-        }
-
-        @SuppressWarnings("unused")
-        public String getExt() {
-            return ext;
-        }
-
-        @SuppressWarnings("unused")
-        public String getBundleType() {
-            return bundleType;
-        }
-
-        @SuppressWarnings("unused")
-        public String getLastModified() {
-            return lastModified;
-        }
-
-        @SuppressWarnings("unused")
-        public String getUrl() {
-            return url;
-        }
-
-        @SuppressWarnings("unused")
-        public String getName() {
-            return name;
-        }
-
-        @SuppressWarnings("unused")
-        public List<Integer> getZuluVersion() {
-            return zuluVersion;
-        }
-
-        @SuppressWarnings("unused")
-        public List<Integer> getJdkVersion() {
-            return jdkVersion;
-        }
-
-        @SuppressWarnings("unused")
-        public Long getSize() {
-            return size;
-        }
-
-        @SuppressWarnings("unused")
-        public String getMd5Hash() {
-            return md5Hash;
-        }
-
-        @SuppressWarnings("unused")
-        public String getSha256Hash() {
-            return sha256Hash;
-        }
-
-        @SuppressWarnings("unchecked")
-        public Integer getReleaseStatus() {
-            return releaseStatus;
-        }
-
-        @SuppressWarnings("unused")
-        public List<String> getFeatures() {
-            return features;
         }
     }
 

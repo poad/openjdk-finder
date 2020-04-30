@@ -1,7 +1,6 @@
 import * as cdk from '@aws-cdk/core';
 import * as events from '@aws-cdk/aws-events';
 import * as targets from '@aws-cdk/aws-events-targets';
-import * as logs from '@aws-cdk/aws-logs';
 import * as lambda from '@aws-cdk/aws-lambda';
 import path = require('path');
 
@@ -34,11 +33,6 @@ export class OpenJdkReleaseInformationCollectorStack extends cdk.Stack {
 
     adoptRule.addTarget(new targets.LambdaFunction(adoptLambdaFn));
 
-    // new logs.LogGroup(this, 'AdoptCollectorLogGroup', {
-    //   logGroupName: '/aws/lambda/' + adoptLambdaFn.functionName,
-    //   retention: logs.RetentionDays.ONE_DAY
-    // })
-
     const libericaLambdaFn = new lambda.Function(this, 'LibericaCollector', {
       functionName: 'liberica-collector',
       code: lambda.Code.fromAsset(path.join(__dirname, '../', 'lambda/build/libs/OpenJdkReleaseInformationCollector-all.jar')),
@@ -59,11 +53,6 @@ export class OpenJdkReleaseInformationCollectorStack extends cdk.Stack {
 
     libericaRule.addTarget(new targets.LambdaFunction(libericaLambdaFn));
 
-    // new logs.LogGroup(this, 'LibericaCollectorLogGroup', {
-    //   logGroupName: '/aws/lambda/' + libericaLambdaFn.functionName,
-    //   retention: logs.RetentionDays.ONE_DAY
-    // });
-
     const zuluLambdaFn = new lambda.Function(this, 'ZuluCollector', {
       functionName: 'zulu-collector',
       code: lambda.Code.fromAsset(path.join(__dirname, '../', 'lambda/build/libs/OpenJdkReleaseInformationCollector-all.jar')),
@@ -83,11 +72,6 @@ export class OpenJdkReleaseInformationCollectorStack extends cdk.Stack {
     });
 
     zuluRule.addTarget(new targets.LambdaFunction(zuluLambdaFn));
-
-    // new logs.LogGroup(this, 'ZuluCollectorLogGroup', {
-    //   logGroupName: '/aws/lambda/' + zuluLambdaFn.functionName,
-    //   retention: logs.RetentionDays.ONE_DAY
-    // });
 
     const sapMachineLambdaFn = new lambda.Function(this, 'SapMachineCollector', {
       functionName: 'sapMachine-collector',

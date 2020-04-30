@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.poad.openjdk.finder.backend.entity.JavaVersion;
+import lombok.Getter;
+import lombok.Value;
 
 import java.net.http.HttpClient;
 import java.util.List;
@@ -15,30 +17,32 @@ public class LibericaJdkV1ApiClient extends JsonHttpClient implements OpenJdkApi
         private static final String RELEASE_VERSIONS = "https://api.bell-sw.com/v1/liberica/releases";
     }
 
+    @Value
+    @Getter
     public static class Release {
-        private final String filename;
-        private final String downloadUrl;
-        private final Integer size;
-        private final String sha1;
-        private final String version;
-        private final String os;
-        private final String bitness;
-        private final Integer featureVersion;
-        private final Integer interimVersion;
-        private final Integer updateVersion;
-        private final Integer patchVersion;
-        private final Integer buildVersion;
-        private final Boolean latestInFeatureVersion;
-        private final Boolean latestLts;
-        private final Boolean latest;
-        private final Boolean lts;
-        private final Boolean ga;
-        private final Boolean fx;
-        private final Boolean eol;
-        private final String architecture;
-        private final String installationType;
-        private final String packageType;
-        private final String bundleType;
+        String filename;
+        String downloadUrl;
+        Integer size;
+        String sha1;
+        String version;
+        String os;
+        String bitness;
+        Integer featureVersion;
+        Integer interimVersion;
+        Integer updateVersion;
+        Integer patchVersion;
+        Integer buildVersion;
+        Boolean latestInFeatureVersion;
+        Boolean latestLts;
+        Boolean latest;
+        Boolean lts;
+        Boolean ga;
+        Boolean fx;
+        Boolean eol;
+        String architecture;
+        String installationType;
+        String packageType;
+        String bundleType;
 
         @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
         public Release(
@@ -88,121 +92,6 @@ public class LibericaJdkV1ApiClient extends JsonHttpClient implements OpenJdkApi
             this.installationType = installationType;
             this.packageType = packageType;
             this.bundleType = bundleType;
-        }
-
-        @SuppressWarnings("unused")
-        public String getFilename() {
-            return filename;
-        }
-
-        @SuppressWarnings("unused")
-        public String getDownloadUrl() {
-            return downloadUrl;
-        }
-
-        @SuppressWarnings("unused")
-        public Integer getSize() {
-            return size;
-        }
-
-        @SuppressWarnings("unused")
-        public String getSha1() {
-            return sha1;
-        }
-
-        @SuppressWarnings("unused")
-        public String getVersion() {
-            return version;
-        }
-
-        @SuppressWarnings("unused")
-        public String getOs() {
-            return os;
-        }
-
-        @SuppressWarnings("unused")
-        public String getBitness() {
-            return bitness;
-        }
-
-        @SuppressWarnings("unused")
-        public Integer getFeatureVersion() {
-            return featureVersion;
-        }
-
-        @SuppressWarnings("unused")
-        public Integer getInterimVersion() {
-            return interimVersion;
-        }
-
-        @SuppressWarnings("unused")
-        public Integer getUpdateVersion() {
-            return updateVersion;
-        }
-
-        @SuppressWarnings("unused")
-        public Integer getPatchVersion() {
-            return patchVersion;
-        }
-
-        @SuppressWarnings("unused")
-        public Integer getBuildVersion() {
-            return buildVersion;
-        }
-
-        @SuppressWarnings("unused")
-        public Boolean getLatestInFeatureVersion() {
-            return latestInFeatureVersion;
-        }
-
-        @SuppressWarnings("unused")
-        public Boolean getLatestLts() {
-            return latestLts;
-        }
-
-        @SuppressWarnings("unused")
-        public Boolean getLatest() {
-            return latest;
-        }
-
-        @SuppressWarnings("unused")
-        public Boolean getLts() {
-            return lts;
-        }
-
-        @SuppressWarnings("unused")
-        public Boolean getGa() {
-            return ga;
-        }
-
-        @SuppressWarnings("unused")
-        public Boolean getFx() {
-            return fx;
-        }
-
-        @SuppressWarnings("unused")
-        public Boolean getEol() {
-            return eol;
-        }
-
-        @SuppressWarnings("unused")
-        public String getArchitecture() {
-            return architecture;
-        }
-
-        @SuppressWarnings("unused")
-        public String getInstallationType() {
-            return installationType;
-        }
-
-        @SuppressWarnings("unused")
-        public String getPackageType() {
-            return packageType;
-        }
-
-        @SuppressWarnings("unused")
-        public String getBundleType() {
-            return bundleType;
         }
     }
 
