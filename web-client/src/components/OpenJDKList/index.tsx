@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { State, OpenJDK, Page, Filter } from '../../store/openjdk/types'
+import { State, OpenJDK, Page, Filter, Order, TableHeadLabel } from '../../store/openjdk/types'
 import RestClient from '../RestClient'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,6 +9,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { Link } from '@material-ui/core';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
@@ -28,7 +29,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 
 interface Props {
   items: Array<OpenJDK>,
-  page: Page
+  page: Page,
 }
 
 const StyledTableCell = withStyles((theme: Theme) => createStyles({
@@ -38,6 +39,23 @@ const StyledTableCell = withStyles((theme: Theme) => createStyles({
   }
 })
 )(TableCell);
+
+const StyledTableSortLabel = withStyles((_: Theme) => createStyles({
+  root: {
+    '&$active': {
+      color: '#ff9',
+    },
+  },
+  active: {
+  },
+  icon: {
+    '&$iconDirectionAsc': {
+      color: '#ff9',
+    },
+  },
+  iconDirectionAsc: {}
+})
+)(TableSortLabel);
 
 const StyledSpinner = withStyles((_: Theme) => createStyles({
   root: {
@@ -91,6 +109,8 @@ class OpenJDKList extends React.Component<Props, State> {
         os: undefined,
         fx: undefined
       },
+      order: 'asc',
+      orderBy: 'vendor',
       loaded: false,
       error: false,
       errorMessage: undefined,
@@ -112,7 +132,7 @@ class OpenJDKList extends React.Component<Props, State> {
 
   fetchList = (): void => {
     this.client.fetchList().then((items) => {
-      this.filtering(items);
+      this.filtering(items.map(item => item.fx != undefined ? item : Object.assign(item, {fx: false})));
       this.closeLoading();
     }).catch((e) => {
       this.openErrorDialog(e.toString());
@@ -132,6 +152,8 @@ class OpenJDKList extends React.Component<Props, State> {
       os: this.state.os,
       fx: this.state.fx,
       condition: this.state.condition,
+      order: this.state.order,
+      orderBy: this.state.orderBy,
       loaded: false,
       error: false,
       errorMessage: undefined,
@@ -151,6 +173,8 @@ class OpenJDKList extends React.Component<Props, State> {
       os: this.state.os,
       fx: this.state.fx,
       condition: this.state.condition,
+      order: this.state.order,
+      orderBy: this.state.orderBy,
       loaded: true,
       error: false,
       errorMessage: this.state.errorMessage,
@@ -170,6 +194,8 @@ class OpenJDKList extends React.Component<Props, State> {
       os: this.state.os,
       fx: this.state.fx,
       condition: this.state.condition,
+      order: this.state.order,
+      orderBy: this.state.orderBy,
       loaded: false,
       error: true,
       errorMessage: msg,
@@ -188,7 +214,14 @@ class OpenJDKList extends React.Component<Props, State> {
         types: this.state.types,
         bundles: this.state.bundles,
         os: this.state.os,
-        fx: this.state.fx
+        fx: this.state.fx,
+        condition: this.state.condition,
+        order: this.state.order,
+        orderBy: this.state.orderBy,
+        loaded: this.state.loaded,
+        error: this.state.error,
+        errorMessage: this.state.errorMessage,
+
       })
     )
   }
@@ -205,7 +238,14 @@ class OpenJDKList extends React.Component<Props, State> {
         types: this.state.types,
         bundles: this.state.bundles,
         os: this.state.os,
-        fx: this.state.fx
+        fx: this.state.fx,
+        condition: this.state.condition,
+        order: this.state.order,
+        orderBy: this.state.orderBy,
+        loaded: this.state.loaded,
+        error: this.state.error,
+        errorMessage: this.state.errorMessage,
+
       })
     )
   }
@@ -222,7 +262,14 @@ class OpenJDKList extends React.Component<Props, State> {
         types: this.state.types,
         bundles: this.state.bundles,
         os: this.state.os,
-        fx: this.state.fx
+        fx: this.state.fx,
+        condition: this.state.condition,
+        order: this.state.order,
+        orderBy: this.state.orderBy,
+        loaded: this.state.loaded,
+        error: this.state.error,
+        errorMessage: this.state.errorMessage,
+
       })
     )
   }
@@ -239,7 +286,14 @@ class OpenJDKList extends React.Component<Props, State> {
         types: types,
         bundles: this.state.bundles,
         os: this.state.os,
-        fx: this.state.fx
+        fx: this.state.fx,
+        condition: this.state.condition,
+        order: this.state.order,
+        orderBy: this.state.orderBy,
+        loaded: this.state.loaded,
+        error: this.state.error,
+        errorMessage: this.state.errorMessage,
+
       })
     )
   }
@@ -256,7 +310,14 @@ class OpenJDKList extends React.Component<Props, State> {
         types: this.state.types,
         bundles: bundles,
         os: this.state.os,
-        fx: this.state.fx
+        fx: this.state.fx,
+        condition: this.state.condition,
+        order: this.state.order,
+        orderBy: this.state.orderBy,
+        loaded: this.state.loaded,
+        error: this.state.error,
+        errorMessage: this.state.errorMessage,
+
       })
     )
   }
@@ -273,7 +334,13 @@ class OpenJDKList extends React.Component<Props, State> {
         types: this.state.types,
         bundles: this.state.bundles,
         os: os,
-        fx: this.state.fx
+        fx: this.state.fx,
+        condition: this.state.condition,
+        order: this.state.order,
+        orderBy: this.state.orderBy,
+        loaded: this.state.loaded,
+        error: this.state.error,
+        errorMessage: this.state.errorMessage,
       })
     )
   }
@@ -287,6 +354,13 @@ class OpenJDKList extends React.Component<Props, State> {
       displayItems = filter.os ? displayItems.filter(item => item.os == filter.os) : displayItems;
       displayItems = filter.type ? displayItems.filter(item => item.type == filter.type) : displayItems;
       displayItems = filter.bundle ? displayItems.filter(item => item.bundle == filter.bundle) : displayItems;
+      displayItems = filter.fx ? displayItems
+        .map(item => item.fx ? item : Object.assign(item, {fx: false}))
+        .map(item => {
+          console.log(item.fx);
+          return item;
+        })
+        .filter(item => item.fx == filter.fx) : displayItems;
     }
 
     this.setState({
@@ -301,6 +375,8 @@ class OpenJDKList extends React.Component<Props, State> {
       os: this.state.os,
       fx: this.state.fx,
       condition: filter ? filter : this.state.condition,
+      order: this.state.order,
+      orderBy: this.state.orderBy,
       loaded: this.state.loaded,
       error: this.state.error,
       errorMessage: this.state.errorMessage,
@@ -308,17 +384,30 @@ class OpenJDKList extends React.Component<Props, State> {
   }
 
   headCells = [
-    { id: 'vendor', numeric: false, disablePadding: false, label: 'Vendor' },
-    { id: 'version', numeric: false, disablePadding: false, label: 'Version' },
-    { id: 'architecture', numeric: false, disablePadding: false, label: 'Architecture' },
-    { id: 'installationType', numeric: false, disablePadding: false, label: 'Package Type' },
-    { id: 'type', numeric: false, disablePadding: false, label: 'JVM implementation' },
-    { id: 'bundle', numeric: false, disablePadding: false, label: 'Type' },
-    { id: 'os', numeric: false, disablePadding: false, label: 'OS' },
-    { id: 'fx', numeric: false, disablePadding: false, label: 'OpenFX' },
-    { id: 'timestamp', numeric: false, disablePadding: false, label: 'Latest Update' },
-    { id: 'download', numeric: false, disablePadding: false, label: 'Link' },
+    { id: 'vendor' as TableHeadLabel, numeric: false, disablePadding: false, label: 'Vendor' },
+    { id: 'version' as TableHeadLabel, numeric: false, disablePadding: false, label: 'Version' },
+    { id: 'arch' as TableHeadLabel, numeric: false, disablePadding: false, label: 'Architecture' },
+    { id: 'installationType' as TableHeadLabel, numeric: false, disablePadding: false, label: 'Package Type' },
+    { id: 'type' as TableHeadLabel, numeric: false, disablePadding: false, label: 'JVM implementation' },
+    { id: 'bundle' as TableHeadLabel, numeric: false, disablePadding: false, label: 'Type' },
+    { id: 'os' as TableHeadLabel, numeric: false, disablePadding: false, label: 'OS' },
+    { id: 'fx' as TableHeadLabel, numeric: false, disablePadding: false, label: 'OpenFX' },
+    { id: 'timestamp' as TableHeadLabel, numeric: false, disablePadding: false, label: 'Latest Update' },
+    { id: 'url' as TableHeadLabel, numeric: false, disablePadding: false, label: 'Link' },
   ];
+
+  handleRequestSort = (_: React.MouseEvent<unknown>, property:TableHeadLabel) => {
+    const isDesc = this.state.orderBy === property && this.state.order === 'asc';
+    this.setSortOrder(isDesc ? 'desc' : 'asc', property);
+  };
+
+  setSortOrder = (order: Order, orderBy: TableHeadLabel) => {
+    this.setState(Object.assign(this.state, {
+      order: order,
+      orderBy: orderBy
+    }));
+  }
+
 
   public render(): JSX.Element {
     const setRowsPerPage = (newRowsPerPage: number) => {
@@ -445,17 +534,53 @@ class OpenJDKList extends React.Component<Props, State> {
       });
     };
 
-    const onFxChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-      onChangeState({
-        vendor: this.state.condition.vendor,
-        version: this.state.condition.version,
-        architecture: this.state.condition.architecture,
-        type: this.state.condition.type,
-        bundle: this.state.condition.bundle,
-        os: this.state.condition.os,
-        fx: event.target.value ? event.target.value as boolean : undefined,
+    // const onFxChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    //   onChangeState({
+    //     vendor: this.state.condition.vendor,
+    //     version: this.state.condition.version,
+    //     architecture: this.state.condition.architecture,
+    //     type: this.state.condition.type,
+    //     bundle: this.state.condition.bundle,
+    //     os: this.state.condition.os,
+    //     fx: event.target.value ? event.target.value as boolean : undefined,
+    //   });
+    // };
+
+
+    function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
+      if (b[orderBy] < a[orderBy]) {
+        return -1;
+      }
+      if (b[orderBy] > a[orderBy]) {
+        return 1;
+      }
+      return 0;
+    }
+
+
+    const createSortHandler = (property: TableHeadLabel) => (event: React.MouseEvent<unknown>) => {
+      this.handleRequestSort(event, property);
+    }
+
+    function getComparator<Key extends TableHeadLabel>(
+      order: Order,
+      orderBy: Key,
+    ): (a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number {
+      return order === 'desc'
+        ? (a, b) => descendingComparator(a, b, orderBy)
+        : (a, b) => -descendingComparator(a, b, orderBy);
+    }
+
+    function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
+      const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
+      stabilizedThis.sort((a, b) => {
+        const order = comparator(a[0], b[0]);
+        if (order !== 0) return order;
+        return a[1] - b[1];
       });
-    };
+      return stabilizedThis.map((el) => el[0]);
+    }
+
 
     return (
       <React.Fragment>
@@ -568,7 +693,7 @@ class OpenJDKList extends React.Component<Props, State> {
                     )}
                   </TextField>
                 </Grid>
-                <Grid item xs={true}>
+                {/* <Grid item xs={true}>
                   <TextField
                     id="fx"
                     select
@@ -578,10 +703,10 @@ class OpenJDKList extends React.Component<Props, State> {
                     fullWidth
                   >
                     <MenuItem key={'ALL'}>ALL</MenuItem>
-                    <MenuItem key={'false'} value='true'>with FX</MenuItem>
-                    <MenuItem key={'true'} value='false'>without FX</MenuItem>
+                    <MenuItem key={'true'} value='true'>with FX</MenuItem>
+                    <MenuItem key={'false'} value='false'>without FX</MenuItem>
                   </TextField>
-                </Grid>
+                </Grid> */}
               </Grid>
             </Paper>
           </FormControl>
@@ -598,15 +723,26 @@ class OpenJDKList extends React.Component<Props, State> {
                         key={headCell.id}
                         align={headCell.numeric ? 'right' : 'left'}
                         padding={headCell.disablePadding ? 'none' : 'default'}
-                        sortDirection={false}
+                        sortDirection={this.state.orderBy === headCell.id ? this.state.order : false}
                       >
-                        {headCell.label}
+                        {headCell.id == 'url' ? headCell.label : (
+                          <StyledTableSortLabel
+                            active={this.state.orderBy === headCell.id}
+                            direction={this.state.orderBy === headCell.id ? this.state.order : 'asc'}
+                            onClick={createSortHandler(headCell.id)}
+                          >
+                            {headCell.label}
+                          </StyledTableSortLabel>)
+                        }
                       </StyledTableCell>
                     ))}
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {this.state.displayItems.slice(this.state.page.page * this.state.page.rowsPerPage, this.state.page.page * this.state.page.rowsPerPage + this.state.page.rowsPerPage).map((item) =>
+                  {
+                    stableSort(this.state.displayItems, getComparator(this.state.order, this.state.orderBy))
+                    .slice(this.state.page.page * this.state.page.rowsPerPage, this.state.page.page * this.state.page.rowsPerPage + this.state.page.rowsPerPage)
+                    .map((item) =>
                     <TableRow key={item.id}>
                       <TableCell>{item.vendor}</TableCell>
                       <TableCell>{item.version}</TableCell>
@@ -634,7 +770,7 @@ class OpenJDKList extends React.Component<Props, State> {
             <TablePagination
               rowsPerPageOptions={[10, 25, 100]}
               component="div"
-              count={this.state.items.length}
+              count={this.state.displayItems.length}
               rowsPerPage={this.state.page.rowsPerPage}
               page={this.state.page.page}
               onChangePage={handleChangePage}

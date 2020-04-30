@@ -8,7 +8,7 @@ class Home extends React.Component {
       <section>
         <Layout>
           <div className="hero">
-            <OpenJDKList items={[]} page={{ page: 0, rowsPerPage: 10 }}></OpenJDKList>
+            <OpenJDKList items={[]} page={{ page: 0, rowsPerPage: 10 }} />
           </div>
         </Layout>
       </section>
