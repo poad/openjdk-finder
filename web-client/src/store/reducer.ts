@@ -24,6 +24,8 @@ export const initialState: State = {
     os: undefined,
     fx: undefined
   },
+  order: 'asc',
+  orderBy: 'vendor',
   loaded: false,
   error: false,
 }

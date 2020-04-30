@@ -40,6 +40,23 @@ const StyledTableCell = withStyles((theme: Theme) => createStyles({
 })
 )(TableCell);
 
+const StyledTableSortLabel = withStyles((_: Theme) => createStyles({
+  root: {
+    '&$active': {
+      color: '#ff9',
+    },
+  },
+  active: {
+  },
+  icon: {
+    '&$iconDirectionAsc': {
+      color: '#ff9',
+    },
+  },
+  iconDirectionAsc: {}
+})
+)(TableSortLabel);
+
 const StyledSpinner = withStyles((_: Theme) => createStyles({
   root: {
     position: 'absolute',
@@ -709,13 +726,13 @@ class OpenJDKList extends React.Component<Props, State> {
                         sortDirection={this.state.orderBy === headCell.id ? this.state.order : false}
                       >
                         {headCell.id == 'url' ? headCell.label : (
-                          <TableSortLabel
+                          <StyledTableSortLabel
                             active={this.state.orderBy === headCell.id}
                             direction={this.state.orderBy === headCell.id ? this.state.order : 'asc'}
                             onClick={createSortHandler(headCell.id)}
                           >
                             {headCell.label}
-                          </TableSortLabel>)
+                          </StyledTableSortLabel>)
                         }
                       </StyledTableCell>
                     ))}
