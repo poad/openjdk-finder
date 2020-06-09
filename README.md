@@ -4,4 +4,4 @@
 
 ## system architecture
 
-![System architecture](wiki/images/architecture.svg)
+![System architecture](https://github.com/poad/openjdk-finder/wiki/images/architecture.svg)
