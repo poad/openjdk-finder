@@ -59,7 +59,7 @@ jobs:
 
       - run: docker login --username=_ --password=${HEROKU_TOKEN} registry.heroku.com
 
-      - run: cd server && ./gradlew -Djib.to.image=registry.heroku.com/${HEROKU_APP}/web jibDockerBuild
+      - run: cd server && ./gradlew bootBuildImage --imageName=registry.heroku.com/${HEROKU_APP}/web
       - run: docker push registry.heroku.com/${HEROKU_APP}/web
 
   deploy:
