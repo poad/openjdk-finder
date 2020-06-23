@@ -368,27 +368,6 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 null)
                 ),
                 Map.entry(
-                        "corretto-11-jdk-hotspot-x86-msi-windows",
-                        new JavaVersion(
-                                "corretto-11-jdk-hotspot-x86-msi-windows",
-                                "corretto",
-                                "corretto",
-                                11,
-                                "x86",
-                                "latest",
-                                "installer",
-                                "msi",
-                                "https://corretto.aws/downloads/latest/amazon-corretto-11-x86-windows-jdk.msi",
-                                "hotspot",
-                                "windows",
-                                "jdk",
-                                false,
-                                "md5",
-                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-11-x86-windows-jdk.msi",
-                                null,
-                                null)
-                ),
-                Map.entry(
                         "corretto-8-jdk-hotspot-x86-msi-windows",
                         new JavaVersion(
                                 "corretto-8-jdk-hotspot-x86-msi-windows",
@@ -407,27 +386,6 @@ public class AmazonCorrettoClient extends JsonHttpClient implements OpenJdkApiCl
                                 "md5",
                                 "https://corretto.aws/downloads/latest_checksum/amazon-corretto-8-x86-windows-jdk.msi",
                                 null,
-                                null)
-                ),
-                Map.entry(
-                        "corretto-11-jdk-hotspot-x86-zip-windows",
-                        new JavaVersion(
-                                "corretto-11-jdk-hotspot-x86-zip-windows",
-                                "corretto",
-                                "corretto",
-                                11,
-                                "x86",
-                                "latest",
-                                "archive",
-                                null,
-                                "https://corretto.aws/downloads/latest/amazon-corretto-8-x86-windows-jdk.zip",
-                                "hotspot",
-                                "windows",
-                                "jdk",
-                                false,
-                                "md5",
-                                "https://corretto.aws/downloads/latest_checksum/amazon-corretto-8-x86-windows-jdk.zip",
-                                "https://corretto.aws/downloads/latest/amazon-corretto-8-x86-windows-jdk.zip.sig",
                                 null)
                 ),
                 Map.entry(
