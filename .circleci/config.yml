@@ -59,12 +59,12 @@ jobs:
 
       - run: docker login --username=_ --password=${HEROKU_TOKEN} registry.heroku.com
 
-      - run: cd server && ./gradlew -Djib.to.image=registry.heroku.com/${HEROKU_APP}/web jibDockerBuild
+      - run: cd server && ./gradlew bootBuildImage --imageName=registry.heroku.com/${HEROKU_APP}/web
       - run: docker push registry.heroku.com/${HEROKU_APP}/web
 
   deploy:
     docker:
-      - image: circleci/buildpack-deps:bionic-curl-browsers
+      - image: circleci/openjdk-11-node
     steps:
       - checkout
 
@@ -78,4 +78,11 @@ jobs:
           name: Release Heroku application
           command: > 
             .circleci/heroku_release.sh
-          
+
+      - run: npm install -g typescript aws-cdk
+
+      - run: cd backend/OpenJdkReleaseInformationCollector && npm install
+
+      - run:
+          name: Release Lambda Functions
+          command: cdk deploy -c jdbc=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_SCHEMA} -c user=${DB_USERNAME} -c password=${DB_PASSWORD}

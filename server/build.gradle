@@ -2,7 +2,6 @@ plugins {
 	id 'org.springframework.boot' version "${springBootVersion}"
 	id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
 	id 'java'
-	id 'com.google.cloud.tools.jib' version "${jibVersion}"
 }
 
 group = 'com.github.poad'
@@ -25,7 +24,6 @@ dependencies {
 		exclude group: 'com.zaxxer', module: 'HikariCP'
 	}
 	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
-	// https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jdbc
 	implementation "org.apache.tomcat:tomcat-jdbc:${tomcatJdbcVersion}"
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	runtimeOnly 'org.postgresql:postgresql'
@@ -37,9 +35,3 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
-
-jib.from.image = 'mcr.microsoft.com/java/jre-headless:11-zulu-alpine'
-jib.to.tags = [ version ]
-jib.container.creationTime = 'USE_CURRENT_TIMESTAMP'
-jib.container.ports = [ '8089' ]
-jib.container.jvmFlags = [ "-Dspring.profiles.active=container" ]
