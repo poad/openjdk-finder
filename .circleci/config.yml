@@ -80,7 +80,7 @@ jobs:
           command: > 
             .circleci/heroku_release.sh
 
-      - run: npm install -g typescript aws-cdk
+      - run: npm install typescript aws-cdk
 
       - run: cd backend/OpenJdkReleaseInformationCollector && npm install
 
