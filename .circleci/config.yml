@@ -85,7 +85,8 @@ jobs:
           command: >
             cd backend/OpenJdkReleaseInformationCollector && 
             npm install &&
-            npx cdk deploy -c jdbc=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_SCHEMA} -c user=${DB_USERNAME} -c password=${DB_PASSWORD}
+            cdk bootstrap &&
+            npx cdk deploy --require-approval=never -c jdbc=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_SCHEMA} -c user=${DB_USERNAME} -c password=${DB_PASSWORD}
       - slack/status:
           fail_only: true
 orbs:
