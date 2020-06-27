@@ -65,7 +65,7 @@ jobs:
 
   deploy:
     docker:
-      - image: circleci/openjdk:11-jdk-node
+      - image: circleci/openjdk:11-jdk-buster-node
     steps:
       - checkout
 
@@ -80,9 +80,9 @@ jobs:
           command: > 
             .circleci/heroku_release.sh
 
-      - run: npm install typescript aws-cdk
-
       - run: cd backend/OpenJdkReleaseInformationCollector && npm install
+
+      - run: npm install typescript aws-cdk
 
       - run:
           name: Release Lambda Functions
