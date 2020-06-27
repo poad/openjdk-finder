@@ -2,8 +2,9 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
+version: 2.1
+
 workflows:
-  version: 2
   build_and_deploy:
     jobs:
       - build
@@ -64,7 +65,7 @@ jobs:
 
   deploy:
     docker:
-      - image: circleci/openjdk-11-node
+      - image: circleci/openjdk:11-jdk-node
     steps:
       - checkout
 
@@ -86,3 +87,8 @@ jobs:
       - run:
           name: Release Lambda Functions
           command: cdk deploy -c jdbc=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_SCHEMA} -c user=${DB_USERNAME} -c password=${DB_PASSWORD}
+      - slack/status:
+          fail_only: true
+orbs:
+  slack: circleci/slack@3.4.2
+  
