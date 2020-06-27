@@ -80,13 +80,12 @@ jobs:
           command: > 
             .circleci/heroku_release.sh
 
-      - run: cd backend/OpenJdkReleaseInformationCollector && npm install
-
-      - run: npm install typescript aws-cdk
-
       - run:
           name: Release Lambda Functions
-          command: npx cdk deploy -c jdbc=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_SCHEMA} -c user=${DB_USERNAME} -c password=${DB_PASSWORD}
+          command: >
+            cd backend/OpenJdkReleaseInformationCollector && 
+            npm install &&
+            npx cdk deploy -c jdbc=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_SCHEMA} -c user=${DB_USERNAME} -c password=${DB_PASSWORD}
       - slack/status:
           fail_only: true
 orbs:
