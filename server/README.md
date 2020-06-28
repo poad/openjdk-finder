@@ -22,8 +22,7 @@ docker-compose up -d
 ## Deploy
 
 ```$sh
-cd server
-./gradlew bootBuildImage --imageName=${app}/web && \
+./gradlew -Djib.to.image=registry.heroku.com/${app}/web jibDockerBuild && \
 docker push registry.heroku.com/${app}/web && \
 heroku container:release -a ${app} web
 ```
