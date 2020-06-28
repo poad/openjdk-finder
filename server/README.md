@@ -10,7 +10,7 @@ docker run -d --name postgres -e POSTGRES_DB=test -e POSTGRES_USER=postgres -e P
 ## Deploy
 
 ```$sh
-./gradlew bootBuildImage --imageName=${app}/web && \
+./gradlew -Djib.to.image=registry.heroku.com/${app}/web jibDockerBuild && \
 docker push registry.heroku.com/${app}/web && \
 heroku container:release -a ${app} web
 ```

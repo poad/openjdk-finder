@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version "${springBootVersion}"
 	id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
 	id 'java'
+	id 'com.google.cloud.tools.jib' version "${jibVersion}"
 }
 
 group = 'com.github.poad'
@@ -35,3 +36,9 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+jib.from.image = 'mcr.microsoft.com/java/jre-headless:11-zulu-alpine'
+jib.to.tags = [ version ]
+jib.container.creationTime = 'USE_CURRENT_TIMESTAMP'
+jib.container.ports = [ '8089' ]
+jib.container.jvmFlags = [ "-Dspring.profiles.active=container" ]
