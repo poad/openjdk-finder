@@ -87,7 +87,7 @@ jobs:
             npm install &&
             npm i --save-dev aws-cdk typescript &&
             npx cdk bootstrap &&
-            npx cdk deploy --require-approval=never -c jdbc=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_SCHEMA} -c user=${DB_USERNAME} -c password=${DB_PASSWORD}
+            npx cdk deploy --require-approval=never -c jdbc=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_SCHEMA} -c user=${DB_USERNAME} -c password=${DB_PASSWORD} --force
       - slack/status:
           fail_only: true
 orbs:
