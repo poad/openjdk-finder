@@ -60,7 +60,7 @@ jobs:
 
       - run: docker login --username=_ --password=${HEROKU_TOKEN} registry.heroku.com
 
-      - run: cd server && ./gradlew -Djib.to.image=registry.heroku.com/${app}/web jibDockerBuild
+      - run: cd server && ./gradlew -Djib.to.image=registry.heroku.com/${HEROKU_APP}/web jibDockerBuild
       - run: docker push registry.heroku.com/${HEROKU_APP}/web
       - run: cd backend/OpenJdkReleaseInformationCollector/lambda && ./gradlew --warning-mode all clean build -x test
   deploy:
