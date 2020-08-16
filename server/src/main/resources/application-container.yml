@@ -11,6 +11,15 @@ spring:
       max-active: 20
       min-idle: 10
 
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: https://openjdk-finder.us.auth0.com/
+#
+#
+#auth0:
+#  audience: ${AUTH0_API_IDENTIFIER}
 
 app:
   cors:

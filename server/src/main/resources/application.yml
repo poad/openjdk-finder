@@ -14,6 +14,16 @@ spring:
     hibernate:
       ddl-auto: update
 
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: https://openjdk-finder.us.auth0.com/
+#
+#
+#auth0:
+#  audience: ${AUTH0_API_IDENTIFIER}
+
 app:
   cors:
     origins:
