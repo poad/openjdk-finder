@@ -19,7 +19,7 @@
     "@aws-cdk/aws-lambda": "^1.61.1",
     "@aws-cdk/aws-logs": "^1.61.1",
     "@types/jest": "^26.0.10",
-    "@types/node": "^14.6.1",
+    "@types/node": "^14.6.2",
     "aws-cdk": "^1.61.1",
     "jest": "^26.4.2",
     "ts-jest": "^26.3.0",
