@@ -37,6 +37,11 @@ public class JavaVersion {
 
     private final String timestamp;
 
+
+    public JavaVersion(String vendor, String distribution, int majorVersion, String arch, String version, String installationType, String extension, String url, String type, String os, String bundle, Boolean fx, String checksumType, String checksum, String sigUrl, String timestamp) {
+        this(genId(vendor, version, bundle, type, arch, extension, os), vendor, distribution, majorVersion, arch, version, installationType, extension, url, type, os, bundle, fx, checksumType, checksum, sigUrl, timestamp);
+    }
+
     public JavaVersion(String id, String vendor, String distribution, int majorVersion, String arch, String version, String installationType, String extension, String url, String type, String os, String bundle, Boolean fx, String checksumType, String checksum, String sigUrl, String timestamp) {
         this.id = id;
         this.vendor = vendor;
@@ -123,5 +128,10 @@ public class JavaVersion {
 
     public String getTimestamp() {
         return timestamp;
+    }
+
+
+    private static String genId(String vendor, String version, String bundle, String type, String arch, String ext, String os) {
+        return String.join("-", vendor, version, bundle, type, arch, ext, os);
     }
 }

@@ -22,6 +22,32 @@ public class AdoptOpenJdkV3ApiClient extends JsonHttpClient implements OpenJdkAp
         private static final String FEATURE_RELEASE = "https://api.adoptopenjdk.net/v3/assets/feature_releases/%d/ga?heap_size=normal&page=0&page_size=100&sort_order=DESC&vendor=%s";
     }
 
+    public enum MajorVersion {
+        VERSION_8(8),
+        VERSION_11(11),
+        VERSION_14(14);
+
+        private final int value;
+
+        MajorVersion(int value) {
+            this.value = value;
+        }
+    }
+
+    public enum OS {
+        OS_LINUX("linux"),
+        OS_WINDOWS("windows"),
+        OS_MACOS("macos"),
+        OS_SOLARIS("solaris"),
+        OS_AIX("aix");
+
+        private final String os;
+
+        OS(String os) {
+            this.os = os;
+        }
+    }
+
     @Value
     @Getter
     public static class AvailableRelease {
