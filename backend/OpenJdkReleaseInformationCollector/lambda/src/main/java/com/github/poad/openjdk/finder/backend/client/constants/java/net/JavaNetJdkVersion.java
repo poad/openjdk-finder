@@ -5,17 +5,17 @@ import com.github.poad.openjdk.finder.backend.entity.JavaVersion;
 public class JavaNetJdkVersion extends JavaVersion {
     public JavaNetJdkVersion(String hash, int majorVersion, int build, String arch, String version, String installationType, String extension, String os) {
         super(
-                "java.net",
-                "openjdk",
+                Vendor.JAVA_NET.getVendor(),
+                Distribution.OPENJDK.getDistribution(),
                 majorVersion,
                 arch,
                 version,
                 installationType,
                 extension,
                 asDownloadUrl(hash, majorVersion, build, arch, version, extension, os),
-                "hotspot",
+                Type.HOTSPOT.getType(),
                 os,
-                "jdk",
+                Bundle.JDK.getBundle(),
                 false,
                 "sha256",
                 asCheckSumUrl(hash, majorVersion, build, arch, version, extension, os),

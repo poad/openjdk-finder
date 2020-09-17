@@ -12,28 +12,28 @@ public class JavaNetClient extends JsonHttpClient implements OpenJdkApiClient {
     public Map<String, JavaVersion> getVersions() {
         return Stream.of(
                 new JavaNetJdk15Version(
-                        "x64",
+                        JavaVersion.Arch.AMD64.getArch(),
                         "archive",
                         "tar.gz",
-                        "linux"
+                        JavaVersion.OS.LINUX.getOs()
                 ),
                 new JavaNetJdk15Version(
-                        "x64",
+                        JavaVersion.Arch.AMD64.getArch(),
                         "archive",
                         "zip",
-                        "windows"
+                        JavaVersion.OS.WINDOWS.getOs()
                 ),
                 new JavaNetJdk15Version(
-                        "x64",
+                        JavaVersion.Arch.AMD64.getArch(),
                         "archive",
                         "zip",
-                        "macos"
+                        JavaVersion.OS.MACOS.getOs()
                 ),
                 new JavaNetJdk15Version(
-                        "aarch64",
+                        JavaVersion.Arch.ARM64.getArch(),
                         "archive",
                         "tar.gz",
-                        "linux"
+                        JavaVersion.OS.LINUX.getOs()
                 )
         ).map(v -> Map.entry(v.getId(), v)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }

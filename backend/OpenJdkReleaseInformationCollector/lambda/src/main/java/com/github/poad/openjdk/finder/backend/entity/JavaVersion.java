@@ -3,6 +3,101 @@ package com.github.poad.openjdk.finder.backend.entity;
 @SuppressWarnings("unused")
 public class JavaVersion {
 
+    public enum Type {
+        HOTSPOT("hostspot"),
+        OPENJ9("openj9");
+
+        private final String type;
+        Type(String type) {
+            this.type = type;
+        }
+
+        public String getType() {
+            return type;
+        }
+    }
+
+    public enum Bundle {
+        JDK("jdk"),
+        JRE("jre");
+
+        private final String bundle;
+        Bundle(String bundle) {
+            this.bundle = bundle;
+        }
+
+        public String getBundle() {
+            return bundle;
+        }
+    }
+
+    public enum Distribution {
+        ADOPT("adoptopenjdk"),
+        OPENJDK("openjdk"),
+        ZULU("zulu");
+
+        private final String distribution;
+        Distribution(String distribution) {
+            this.distribution = distribution;
+        }
+
+        public String getDistribution() {
+            return distribution;
+        }
+    }
+
+    public enum Vendor {
+        ADOPT("adoptopenjdk"),
+        JAVA_NET("java.net"),
+        ZULU("zulu");
+
+        private final String vendor;
+        Vendor(String vendor) {
+            this.vendor = vendor;
+        }
+
+        public String getVendor() {
+            return vendor;
+        }
+    }
+
+    public enum Arch {
+        ARM32("arm"),
+        ARM64("aarch64"),
+        PPC("ppc"),
+        X86("x86"),
+        AMD64("x64"),
+        SPARC_V9("sparcv9");
+
+        private final String arch;
+
+        Arch(String arch) {
+            this.arch = arch;
+        }
+
+        public String getArch() {
+            return this.arch;
+        }
+    }
+
+    public enum OS {
+        LINUX("linux"),
+        LINUX_MUSL("linux_musl"),
+        MACOS("macos"),
+        WINDOWS("windows"),
+        SOLARIS("solaris");
+
+        private final String os;
+
+        OS(String os) {
+            this.os = os;
+        }
+
+        public String getOs() {
+            return this.os;
+        }
+    }
+
     private final String id;
 
     private final String vendor;
