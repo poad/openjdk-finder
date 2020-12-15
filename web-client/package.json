@@ -18,10 +18,10 @@
     }
   },
   "dependencies": {
-    "@ampproject/toolbox-optimizer": "^2.7.1",
+    "@ampproject/toolbox-optimizer": "^2.7.2",
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
-    "@types/node": "^14.14.13",
+    "@types/node": "^14.14.14",
     "@types/react": "^17.0.0",
     "@types/react-loader": "^2.4.4",
     "@types/react-redux": "^7.1.12",

@@ -10,13 +10,13 @@
     cross-fetch "3.0.5"
     lru-cache "6.0.0"
 
-"@ampproject/toolbox-core@^2.7.1":
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/@ampproject/toolbox-core/-/toolbox-core-2.7.1.tgz#d433a333c0dbb0bb6db7e69edd490d5694e06fc3"
-  integrity sha512-MWGmCLyBOouXTy1Vc30Jw7NkshJ5XkPlcXhhRc9Gw3dDAZJ8rUS69SIQ6cFMt2owCQnw7irMNlvZQTqdyx61rA==
+"@ampproject/toolbox-core@^2.7.2":
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/@ampproject/toolbox-core/-/toolbox-core-2.7.2.tgz#43acd7c1d0331be1db611d781d7dc2184c0aadb5"
+  integrity sha512-deQiuOghOShoEBoTIDNsSER5gMC6qZfVqYKvlQYcQ+OxKR7J3FtA5XDz98UQsuWx1EB2x2hivrpC6G9BQaXMHw==
   dependencies:
-    cross-fetch "3.0.6"
     lru-cache "6.0.0"
+    node-fetch "2.6.1"
 
 "@ampproject/toolbox-optimizer@2.7.0-alpha.1":
   version "2.7.0-alpha.1"
@@ -42,17 +42,16 @@
     postcss-safe-parser "4.0.2"
     terser "5.1.0"
 
-"@ampproject/toolbox-optimizer@^2.7.1":
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/@ampproject/toolbox-optimizer/-/toolbox-optimizer-2.7.1.tgz#8c1378d9f0e5a28a85634ea4f8d1738d68390729"
-  integrity sha512-jBSbif9WpFbcIJWSXFjNemc83d/gMspRnYaSayM43HMDDIo2Je4k1dx9EN83fxXQN91Gr2WeXrcA4mIGocZkHg==
+"@ampproject/toolbox-optimizer@^2.7.2":
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/@ampproject/toolbox-optimizer/-/toolbox-optimizer-2.7.2.tgz#e813b1a89356b48bea4abfcd85a611ea2cc872a0"
+  integrity sha512-a9/vmIZ5xRY6keKOzLeEchoPHdhCAb1G98NnJXXPmGHglYYZ8AgmpcQ7Bh1DlY8N3KtZ26L5mJUqr+oSToo1FQ==
   dependencies:
-    "@ampproject/toolbox-core" "^2.7.1"
-    "@ampproject/toolbox-runtime-version" "^2.7.1"
+    "@ampproject/toolbox-core" "^2.7.2"
+    "@ampproject/toolbox-runtime-version" "^2.7.2"
     "@ampproject/toolbox-script-csp" "^2.5.4"
-    "@ampproject/toolbox-validator-rules" "^2.7.1"
+    "@ampproject/toolbox-validator-rules" "^2.7.2"
     abort-controller "3.0.0"
-    cross-fetch "3.0.6"
     cssnano-simple "1.2.1"
     dom-serializer "1.1.0"
     domhandler "3.3.0"
@@ -73,12 +72,12 @@
   dependencies:
     "@ampproject/toolbox-core" "^2.6.0"
 
-"@ampproject/toolbox-runtime-version@^2.7.1":
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/@ampproject/toolbox-runtime-version/-/toolbox-runtime-version-2.7.1.tgz#2ae543c97e2659be444eb389b1277ed5a70568e6"
-  integrity sha512-3LsjaOz/Aw4YpWG6ZxpVhA2N8GF0gRfvCrNm0ZspUviz/NR+MLrJ50BPoOOAmKCzoNVA2Q8xF3Y8dfamGuoblA==
+"@ampproject/toolbox-runtime-version@^2.7.2":
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/@ampproject/toolbox-runtime-version/-/toolbox-runtime-version-2.7.2.tgz#32d0867c4a0625b7fe0f2114df6669d9d2e63863"
+  integrity sha512-BKDl29i/cvC0xtrUHnF2YR25gMfyVnXCaV1ZaMDNcPNRJGbBSNQtW6eZt9+rPoV/hKpFxyJia30ECw42FVhh9g==
   dependencies:
-    "@ampproject/toolbox-core" "^2.7.1"
+    "@ampproject/toolbox-core" "^2.7.2"
 
 "@ampproject/toolbox-script-csp@^2.5.4":
   version "2.5.4"
@@ -92,12 +91,12 @@
   dependencies:
     cross-fetch "3.0.5"
 
-"@ampproject/toolbox-validator-rules@^2.7.1":
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/@ampproject/toolbox-validator-rules/-/toolbox-validator-rules-2.7.1.tgz#5a257f2b21d1d44167769fe3eae7f587d249d9fa"
-  integrity sha512-LYkGKqFBOC39lvRX38wGjbLf4r8VXJyiCZSLRepiHjO4xbstZLyHPwxHlobQrBhD7UbHZn5TVD+qw+VMJNMSxw==
+"@ampproject/toolbox-validator-rules@^2.7.2":
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/@ampproject/toolbox-validator-rules/-/toolbox-validator-rules-2.7.2.tgz#6e13245418a27cc9a1c49692890a6113b087cbdf"
+  integrity sha512-/XNa5nhyZl8ET63HQv73AjgEZN03YMBZVZwZ62luxsuEsfzpVzs/tU/RaOHCnL2EuRyaAX95O7GO3Gyxp8z79g==
   dependencies:
-    cross-fetch "^3.0.6"
+    node-fetch "2.6.1"
 
 "@babel/code-frame@7.10.4", "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4":
   version "7.10.4"
@@ -950,10 +949,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.6.0.tgz#7d4411bf5157339337d7cff864d9ff45f177b499"
   integrity sha512-mikldZQitV94akrc4sCcSjtJfsTKt4p+e/s0AGscVA6XArQ9kFclP+ZiYUMnq987rc6QlYxXv/EivqlfSLxpKA==
 
-"@types/node@^14.14.13":
-  version "14.14.13"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.13.tgz#9e425079799322113ae8477297ae6ef51b8e0cdf"
-  integrity sha512-vbxr0VZ8exFMMAjCW8rJwaya0dMCDyYW2ZRdTyjtrCvJoENMpdUHOT/eTzvgyA5ZnqRZ/sI0NwqAxNHKYokLJQ==
+"@types/node@^14.14.14":
+  version "14.14.14"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.14.tgz#f7fd5f3cc8521301119f63910f0fb965c7d761ae"
+  integrity sha512-UHnOPWVWV1z+VV8k6L1HhG7UbGBgIdghqF3l9Ny9ApPghbjICXkUJSd/b9gOgQfjM1r+37cipdw/HJ3F6ICEnQ==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -2585,7 +2584,7 @@ cross-fetch@3.0.5:
   dependencies:
     node-fetch "2.6.0"
 
-cross-fetch@3.0.6, cross-fetch@^3.0.6:
+cross-fetch@^3.0.6:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.0.6.tgz#3a4040bc8941e653e0e9cf17f29ebcd177d3365c"
   integrity sha512-KBPUbqgFjzWlVcURG+Svp9TlhA5uliYtiNx/0r8nv0pdypeQCRJ9IaSIc3q/x3q8t3F75cHuwxVql1HFGHCNJQ==
