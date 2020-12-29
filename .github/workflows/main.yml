@@ -13,11 +13,11 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - uses: docker://node:lts-buster-slim
-    - uses: poad/update-node-modules@master
+    - uses: poad/update-node-modules@v1
       with:
         path: web-client
         yarn: true
-    - uses: poad/update-node-modules@master
+    - uses: poad/update-node-modules@v1
       with:
         path: backend/OpenJdkReleaseInformationCollector
     - name: Commit files
